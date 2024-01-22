@@ -1,0 +1,4 @@
+#Mon Jan 22 17:14:49 CET 2024
+base.0=/home/jprietop/Flutter/agro_sync/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
