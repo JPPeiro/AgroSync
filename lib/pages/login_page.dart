@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:agro_sync/components/my_button.dart';
 import 'package:agro_sync/components/my_textfield.dart';
 
+import '../petitions_http.dart';
 import 'SignIn.dart';
 
 class LoginPage extends StatelessWidget {
@@ -12,16 +13,37 @@ class LoginPage extends StatelessWidget {
   final passwordController = TextEditingController();
 
   // sign user in method
-  void signUserIn(BuildContext context) {
+  void signUserIn(BuildContext context) async {
     // Lógica de autenticación aquí
+    try {
+      // Realizar la llamada a la API para obtener la lista de usuarios
+      List<dynamic> usuarios = await obtenerUsuarios();
+      print(usuarios);
+      // Obtener el usuario con el nombre de usuario proporcionado
+      dynamic usuario = usuarios.firstWhere(
+            (user) => user['nombre'] == usernameController.text,
+        orElse: () => null,
+      );
+      print(usuario['contrasena']);
+      print(usuario['nombre']);
+      // Verificar si el usuario existe y la contraseña es correcta
+      if (usuario != null && usuario['contrasena'] == passwordController.text) {
+        // Después de autenticar con éxito, redirige a la página de inicio con el nombre de usuario
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignIn(username: usernameController.text),
+          ),
+        );
+      } else {
+        // Manejar caso de autenticación fallida
 
-    // Después de autenticar con éxito, redirige a la página de inicio con el nombre de usuario
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignIn(username: usernameController.text),
-      ),
-    );
+        print('Autenticación fallida');
+      }
+    } catch (e) {
+      // Manejar errores de red u otros errores
+      print('Error: $e');
+    }
   }
 
   @override
