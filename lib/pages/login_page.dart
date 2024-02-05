@@ -18,27 +18,32 @@ class LoginPage extends StatelessWidget {
     try {
       // Realizar la llamada a la API para obtener la lista de usuarios
       List<dynamic> usuarios = await obtenerUsuarios();
+      print("desde aqui");
       print(usuarios);
       // Obtener el usuario con el nombre de usuario proporcionado
       dynamic usuario = usuarios.firstWhere(
             (user) => user['nombre'] == usernameController.text,
         orElse: () => null,
       );
-      print(usuario['contrasena']);
+      print(usuario['password']);
       print(usuario['nombre']);
       // Verificar si el usuario existe y la contraseña es correcta
-      if (usuario != null && usuario['contrasena'] == passwordController.text) {
-        // Después de autenticar con éxito, redirige a la página de inicio con el nombre de usuario
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SignIn(username: usernameController.text),
-          ),
-        );
-      } else {
-        // Manejar caso de autenticación fallida
-
-        print('Autenticación fallida');
+      if (usuario != null) {
+        if (usuario['password'] == passwordController.text) {
+          // Después de autenticar con éxito, redirige a la página de inicio con el nombre de usuario
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SignIn(username: usernameController.text),
+            ),
+          );
+        } else {
+          // Manejar caso de contraseña incorrecta
+          print('Contraseña incorrecta');
+        }
+      } else {//sdf
+        // Manejar caso de nombre de usuario no encontrado
+        print('Nombre de usuario no encontrado');
       }
     } catch (e) {
       // Manejar errores de red u otros errores
