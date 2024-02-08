@@ -99,7 +99,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                 DataTable(
                   columnSpacing: 16,
                   columns: [
-                    DataColumn(label: Text('Nombre del Pienso')),
+                    DataColumn(label: Text('Nombre')),
                     DataColumn(label: Text('Cantidad')),
                   ],
                   rows: [
@@ -114,7 +114,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                 DataTable(
                   columnSpacing: 16,
                   columns: [
-                    DataColumn(label: Text('Nombre del Ingrediente')),
+                    DataColumn(label: Text('Ingrediente')),
                     DataColumn(label: Text('Cantidad')),
                   ],
                   rows: detallesIngredientes.map((detalle) {
