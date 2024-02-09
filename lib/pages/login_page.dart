@@ -1,3 +1,4 @@
+import 'package:agro_sync/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/components/my_button.dart';
 import 'package:agro_sync/components/my_textfield.dart';
@@ -21,7 +22,7 @@ class LoginPage extends StatelessWidget {
 
       if (usuario != null) {
         if (usuario['password'] == passwordController.text) {
-          navigateToPiensosScreen(context);
+          navigateToMainPage(context);
         } else {
           print('Contraseña incorrecta');
         }
@@ -33,11 +34,11 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-  void navigateToPiensosScreen(BuildContext context) {
+  void navigateToMainPage(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => PiensosScreen(username: usernameController.text),
+        builder: (context) => MainPage(),
       ),
     );
   }

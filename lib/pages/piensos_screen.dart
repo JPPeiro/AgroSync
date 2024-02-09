@@ -3,10 +3,11 @@ import 'package:agro_sync/petittions_http.dart';
 import 'package:agro_sync/pages/login_page.dart';
 import 'package:agro_sync/pages/pienso_details_screen.dart';
 
-class PiensosScreen extends StatelessWidget {
-  final String username;
+import 'main_page.dart';
 
-  const PiensosScreen({required this.username, Key? key}) : super(key: key);
+class PiensosScreen extends StatelessWidget {
+
+  const PiensosScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class PiensosScreen extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginPage(),
+                builder: (context) => MainPage(),
               ),
             );
           },
