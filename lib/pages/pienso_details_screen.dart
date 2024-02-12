@@ -82,7 +82,9 @@ class PiensoDetailsScreen extends StatelessWidget {
 
           // Aquí puedes mostrar los detalles del pienso en una tabla
           return Scaffold(
-            backgroundColor: Colors.orange[100],
+            // backgroundColor: Colors.orange[100],
+            backgroundColor: Colors.grey[900],
+
             appBar: AppBar(
               title: Text('Detalles de ${pienso['nombre']}'),
             ),

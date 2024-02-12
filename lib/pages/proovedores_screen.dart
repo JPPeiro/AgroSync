@@ -64,6 +64,7 @@ class ProveedoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Proveedores'),
       ),

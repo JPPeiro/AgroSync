@@ -2,7 +2,6 @@ import 'package:agro_sync/pages/proovedores_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/pages/login_page.dart';
 import 'package:agro_sync/pages/piensos_screen.dart';
-// import 'package:agro_sync/pages/proveedores_screen.dart';
 import 'package:agro_sync/pages/usuarios_screen.dart';
 
 class MainPage extends StatelessWidget {
@@ -11,6 +10,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: const Text('Piensos'),
         leading: IconButton(
