@@ -67,6 +67,15 @@ class ProveedoresScreen extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Proveedores'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.green.shade300, Colors.green.shade500],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerProveedores(),

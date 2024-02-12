@@ -70,6 +70,15 @@ class UsuariosScreen extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text('Usuarios'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade300, Colors.blue.shade500],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerUsuarios(),

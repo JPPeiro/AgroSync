@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Piensos'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.power_settings_new_sharp),
           onPressed: () {
             Navigator.pushReplacement(
               context,
@@ -63,6 +63,34 @@ class MainPage extends StatelessWidget {
               icon: Icons.feed_rounded,
               title: 'Piensos',
               color: Colors.orange,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PiensosScreen(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomCard(
+              icon: Icons.shopping_cart,
+              title: 'Pedidos Ingredientes',
+              color: Colors.red,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PiensosScreen(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomCard(
+              icon: Icons.psychiatry,
+              title: 'Ingredientes',
+              color: Colors.deepPurple,
               onTap: () {
                 Navigator.push(
                   context,
