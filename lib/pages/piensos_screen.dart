@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:agro_sync/petittions_http.dart';
-import 'package:agro_sync/pages/login_page.dart';
 import 'package:agro_sync/pages/pienso_details_screen.dart';
-
 import 'main_page.dart';
 
 class PiensosScreen extends StatelessWidget {
-
   const PiensosScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[300],
       appBar: AppBar(
         title: const Text('Piensos'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.orange.shade300, Colors.orange.shade500],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -47,9 +52,7 @@ class PiensosScreen extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var pienso = snapshot.data![index];
-                return CustomCard(
-                  pienso: pienso['nombre'].toString(),
-                );
+                return CustomCard(pienso: pienso['nombre'].toString());
               },
             );
           }
@@ -79,18 +82,17 @@ class CustomCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        elevation: 8,
-        shadowColor: Colors.black.withOpacity(0.25),
+        elevation: 4,
         margin: const EdgeInsets.all(16),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Column(
             children: [
               AspectRatio(
-                aspectRatio: 1,
+                aspectRatio: 16 / 9,
                 child: Image.asset(
                   'assets/img/Pienso1.png', // Ruta de la imagen estática
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: 8.0),

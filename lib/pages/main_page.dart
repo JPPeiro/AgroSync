@@ -1,6 +1,9 @@
+import 'package:agro_sync/pages/proovedores_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:agro_sync/pages/login_page.dart';
 import 'package:agro_sync/pages/piensos_screen.dart';
-import 'package:flutter/material.dart';
+// import 'package:agro_sync/pages/proveedores_screen.dart';
+import 'package:agro_sync/pages/usuarios_screen.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -28,19 +31,46 @@ class MainPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 40),
-            CustomCircleAvatar(
-              nombre: "Usuarios",
-              color: Colors.blue, // Cambia el color según sea necesario
+            CustomCard(
+              icon: Icons.supervised_user_circle,
+              title: 'Usuarios',
+              color: Colors.blue,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UsuariosScreen(),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
-            CustomCircleAvatar(
-              nombre: "Proveedores",
-              color: Colors.green, // Cambia el color según sea necesario
+            CustomCard(
+              icon: Icons.store,
+              title: 'Proveedores',
+              color: Colors.green,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProveedoresScreen(),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
-            CustomCircleAvatar(
-              nombre: "Piensos",
-              color: Colors.orange, // Cambia el color según sea necesario
+            CustomCard(
+              icon: Icons.feed_rounded,
+              title: 'Piensos',
+              color: Colors.orange,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PiensosScreen(),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 20),
           ],
@@ -50,35 +80,60 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class CustomCircleAvatar extends StatelessWidget {
-  final String nombre;
+class CustomCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
   final Color color;
+  final void Function()? onTap;
 
-  const CustomCircleAvatar({
+  const CustomCard({
     Key? key,
-    required this.nombre,
+    required this.icon,
+    required this.title,
     required this.color,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PiensosScreen(),
+        onTap: onTap,
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        );
-      },
-      child: CircleAvatar(
-        radius: 110,
-        backgroundColor: color,
-        child: Text(
-          nombre,
-          style: const TextStyle(fontSize: 30, color: Colors.white),
-        ),
-      ),
-    );
+          color: color,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        icon,
+                        color: color,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }

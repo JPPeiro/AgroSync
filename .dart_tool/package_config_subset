@@ -27,9 +27,13 @@ fake_async
 file:///home/jprietop/.pub-cache/hosted/pub.dev/fake_async-1.3.1/
 file:///home/jprietop/.pub-cache/hosted/pub.dev/fake_async-1.3.1/lib/
 flutter_lints
-2.19
-file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/
-file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/lib/
+3.0
+file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_lints-3.0.1/
+file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_lints-3.0.1/lib/
+flutter_slidable
+2.17
+file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_slidable-3.0.1/
+file:///home/jprietop/.pub-cache/hosted/pub.dev/flutter_slidable-3.0.1/lib/
 http
 3.2
 file:///home/jprietop/.pub-cache/hosted/pub.dev/http-1.2.0/
@@ -40,8 +44,8 @@ file:///home/jprietop/.pub-cache/hosted/pub.dev/http_parser-4.0.2/
 file:///home/jprietop/.pub-cache/hosted/pub.dev/http_parser-4.0.2/lib/
 lints
 3.0
-file:///home/jprietop/.pub-cache/hosted/pub.dev/lints-2.1.1/
-file:///home/jprietop/.pub-cache/hosted/pub.dev/lints-2.1.1/lib/
+file:///home/jprietop/.pub-cache/hosted/pub.dev/lints-3.0.0/
+file:///home/jprietop/.pub-cache/hosted/pub.dev/lints-3.0.0/lib/
 matcher
 2.18
 file:///home/jprietop/.pub-cache/hosted/pub.dev/matcher-0.12.16/
