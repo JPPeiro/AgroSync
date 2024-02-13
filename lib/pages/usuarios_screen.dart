@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
-import 'formulario_screen.dart';
+import 'forms/formulario_usuario_screen.dart';
 
 class UsuariosScreen extends StatefulWidget {
   const UsuariosScreen({Key? key}) : super(key: key);
@@ -13,16 +13,18 @@ class UsuariosScreen extends StatefulWidget {
 class _UsuariosScreenState extends State<UsuariosScreen> {
   List<dynamic> usuarios = [];
 
-  Future<void> cargarUsuarios() async {
 
-    List<dynamic> usuariosActualizados = await obtenerUsuarios();
-    setState(() {
-      usuarios.clear();
-      usuarios = usuariosActualizados;
-    });
-  }
-  actualizarPantalla() {
-    cargarUsuarios();
+  Future<void> actualizar(int id) async {
+    try {
+      // Llama a la función para eliminar el usuario desde el servidor
+      await borrarUsuario(id);
+      // Actualiza la lista de usuarios eliminando el usuario borrado
+      setState(() {
+        usuarios.removeWhere((usuario) => usuario['id'] == id);
+      });
+    } catch (e) {
+      print('Error al borrar el usuario: $e');
+    }
   }
   // Método para construir una celda de datos
   Widget _buildDataCell(String text) {
@@ -52,9 +54,16 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             onPressed: (context) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FormularioScreen( userId: int.parse(id),)),
-              );
-              actualizarPantalla();
+                MaterialPageRoute(
+                  builder: (context) => FormularioScreen(userId: int.parse(id)),
+                ),
+              ).then((listaUsuarios) {
+                if (listaUsuarios != null) {
+                  setState(() {
+                    usuarios = listaUsuarios;
+                  });
+                }
+              });
             },
           ),
         ],
@@ -68,9 +77,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             backgroundColor: Colors.red,
             icon: Icons.delete,
             onPressed: (context) {
-              borrarUsuario(int.parse(id));
-              actualizarPantalla();
-
+              actualizar(int.parse(id));
             },
           ),
         ],

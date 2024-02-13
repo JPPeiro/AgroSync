@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../petittions_http.dart';
+import '../../petittions_http.dart';
 
 class FormularioScreen extends StatefulWidget {
   final int userId;
@@ -20,7 +20,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulario'),
+        title: Text('Editar Usuario'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -29,9 +29,9 @@ class _FormularioScreenState extends State<FormularioScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
+              _buildTextFormField(
                 controller: _nombreController,
-                decoration: InputDecoration(labelText: 'Nombre'),
+                label: 'Nombre',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingrese el nombre';
@@ -39,9 +39,10 @@ class _FormularioScreenState extends State<FormularioScreen> {
                   return null;
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildTextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Contraseña'),
+                label: 'Contraseña',
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -50,9 +51,10 @@ class _FormularioScreenState extends State<FormularioScreen> {
                   return null;
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildTextFormField(
                 controller: _permisosController,
-                decoration: InputDecoration(labelText: 'Permisos'),
+                label: 'Permisos',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingrese los permisos';
@@ -60,41 +62,56 @@ class _FormularioScreenState extends State<FormularioScreen> {
                   return null;
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      // Si los campos del formulario son válidos
-                      try {
-                        // Llama al método de petición HTTP para actualizar el usuario
-                        actualizarUsuario(
-                          {
-                            'id': widget.userId,
-                            'nombre': _nombreController.text,
-                            'password': _passwordController.text,
-                            'permisos': _permisosController.text,
-                          },
-                        );
-                        List<dynamic> listaUsuarios = await obtenerUsuarios();
-                        print('Lista de usuarios: $listaUsuarios');
-
-                        // Navega de regreso a la pantalla de los piensos
-                        Navigator.pop(context);
-                      } catch (e) {
-                        print('Error al actualizar el usuario: $e');
-                        // Maneja el error aquí si es necesario
-                      }
-                    }
-                  },
-                  child: Text('Actualizar'),
-                ),
-              ),
+              SizedBox(height: 32),
+              _buildElevatedButton(),
             ],
           ),
         ),
       ),
     );
   }
-}
 
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String label,
+    String? Function(String?)? validator,
+    bool obscureText = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      validator: validator,
+    );
+  }
+
+  Widget _buildElevatedButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {
+            try {
+              await actualizarUsuario(
+                {
+                  'id': widget.userId,
+                  'nombre': _nombreController.text,
+                  'password': _passwordController.text,
+                  'permisos': _permisosController.text,
+                },
+              );
+              List<dynamic> listaUsuarios = await obtenerUsuarios();
+              Navigator.pop(context, listaUsuarios);
+            } catch (e) {
+              print('Error al actualizar el usuario: $e');
+            }
+          }
+        },
+        child: Text('Actualizar'),
+      ),
+    );
+  }
+}
