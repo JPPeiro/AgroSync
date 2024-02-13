@@ -1,25 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
+import 'formulario_screen.dart';
 
-class UsuariosScreen extends StatelessWidget {
-  UsuariosScreen({Key? key}) : super(key: key);
+class UsuariosScreen extends StatefulWidget {
+  const UsuariosScreen({Key? key}) : super(key: key);
 
+  @override
+  _UsuariosScreenState createState() => _UsuariosScreenState();
+}
+
+class _UsuariosScreenState extends State<UsuariosScreen> {
+  List<dynamic> usuarios = [];
+
+  Future<void> cargarUsuarios() async {
+
+    List<dynamic> usuariosActualizados = await obtenerUsuarios();
+    setState(() {
+      usuarios.clear();
+      usuarios = usuariosActualizados;
+    });
+  }
+  actualizarPantalla() {
+    cargarUsuarios();
+  }
+  // Método para construir una celda de datos
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );
   }
 
-  Widget _buildDataRow(String id, String nombre, String contrasena,
-      String permisos) {
+  // Método para construir una fila de datos
+  Widget _buildDataRow(String id, String nombre, String contrasena, String permisos) {
     return Slidable(
       startActionPane: ActionPane(
         motion: const DrawerMotion(),
@@ -29,7 +49,13 @@ class UsuariosScreen extends StatelessWidget {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-            onPressed: (context) => print('Editar'),
+            onPressed: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FormularioScreen( userId: int.parse(id),)),
+              );
+              actualizarPantalla();
+            },
           ),
         ],
       ),
@@ -41,15 +67,19 @@ class UsuariosScreen extends StatelessWidget {
             label: 'Eliminar',
             backgroundColor: Colors.red,
             icon: Icons.delete,
-            onPressed: (context) => print('Eliminar'),
+            onPressed: (context) {
+              borrarUsuario(int.parse(id));
+              actualizarPantalla();
+
+            },
           ),
         ],
       ),
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -69,7 +99,7 @@ class UsuariosScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Usuarios'),
+        title: const Text('Usuarios'),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -84,7 +114,7 @@ class UsuariosScreen extends StatelessWidget {
         future: obtenerUsuarios(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
@@ -92,19 +122,21 @@ class UsuariosScreen extends StatelessWidget {
               child: Text('Error: ${snapshot.error}'),
             );
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No se encontraron usuarios.'),
             );
           } else {
+            // Almacena los usuarios en la lista usuarios
+            usuarios = snapshot.data!;
             return ListView(
               children: [
                 _buildHeaderRow(),
-                SizedBox(height: 8), // Espacio entre el encabezado y los datos
-                ...snapshot.data!.map((usuario) {
+                const SizedBox(height: 8), // Espacio entre el encabezado y los datos
+                ...usuarios.map((usuario) {
                   return _buildDataRow(
                     usuario['id'].toString(),
                     usuario['nombre'].toString(),
-                    usuario['contrasena'].toString(),
+                    usuario['password'].toString(),
                     usuario['permisos'].toString(),
                   );
                 }),
@@ -119,9 +151,9 @@ class UsuariosScreen extends StatelessWidget {
   Widget _buildHeaderRow() {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(10),
@@ -142,11 +174,11 @@ class UsuariosScreen extends StatelessWidget {
   Widget _buildHeaderCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.white,

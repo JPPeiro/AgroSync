@@ -162,7 +162,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${pienso['cantidad']} gramos',
+                                '${pienso['cantidad']} kilos',
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),

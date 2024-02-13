@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
 
-class ProveedoresScreen extends StatelessWidget {
-  ProveedoresScreen({Key? key}) : super(key: key);
+class IngredientesScreen extends StatelessWidget {
+  IngredientesScreen({Key? key}) : super(key: key);
 
   Widget _buildDataCell(String text) {
     return Expanded(
@@ -18,7 +18,7 @@ class ProveedoresScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDataRow(String id, String nombre) {
+  Widget _buildDataRow(String id, String nombre, String inventario) {
     return Slidable(
       startActionPane: ActionPane(
         motion: const DrawerMotion(),
@@ -54,6 +54,7 @@ class ProveedoresScreen extends StatelessWidget {
             children: [
               _buildDataCell(id),
               _buildDataCell(nombre),
+              _buildDataCell(inventario),
             ],
           ),
         ),
@@ -66,11 +67,11 @@ class ProveedoresScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Proveedores'),
+        title: Text('Ingredientes'),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.green.shade300, Colors.green.shade500],
+              colors: [Colors.purple.shade300, Colors.purple.shade500],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -78,7 +79,7 @@ class ProveedoresScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<List<dynamic>>(
-        future: obtenerProveedores(),
+        future: obtenerIngredientes(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -101,6 +102,7 @@ class ProveedoresScreen extends StatelessWidget {
                   return _buildDataRow(
                     proveedor['id'].toString(),
                     proveedor['nombre'].toString(),
+                    proveedor['cantidad'].toString(),
                   );
                 }),
               ],
@@ -118,7 +120,7 @@ class ProveedoresScreen extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: Colors.purple,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -126,6 +128,7 @@ class ProveedoresScreen extends StatelessWidget {
           children: [
             _buildHeaderCell('ID'),
             _buildHeaderCell('Nombre'),
+            _buildHeaderCell('Inventario'),
           ],
         ),
       ),
