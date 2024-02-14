@@ -10,7 +10,6 @@ TODO
 
 
 falta hacer la verificacion y si no hay cantidad que te haga pedir los ingredientes.
-    - procedimiento para comprobar si hay stock
     - se tiene que poder ver en la ventana emergente debajo del input una tabla con los ingredientes y a derecha el boton para pedir pero que solo salga cuando haya comprobado que no hay stock
     - ese boton te redirige a una pantalla que te mostrar una lista de los proveedores con los precios que vende el ingrediente en cuestion. la cantidad necesaria ya estara puesta en el input
     - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.

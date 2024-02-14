@@ -125,6 +125,26 @@ Future<void> agregarPienso(int piensoId, int cantidadTotal) async {
     print('Error: $e');
   }
 }
+Future<Map<String, dynamic>> verificarStock(int piensoId, int cantidadTotal) async {
+  final String apiUrl = 'http://localhost:8080/api/verificar/';
+
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'piensoId': piensoId,
+      'cantidadTotal': cantidadTotal,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
 
 
 
@@ -234,7 +254,7 @@ void main() async {
   List<dynamic> listaIngredientes = await obtenerIngredientes();
   List<dynamic> listaProveedores = await obtenerProveedores();
   List<dynamic> listaIngredienteProveedor = await obtenerIngredienteProveedor();
-
+  final result = await verificarStock(1, 1);
 
   print('Lista de usuarios: $listaUsuarios');
   print('Lista de piensos: $listaPiensos');
@@ -242,4 +262,6 @@ void main() async {
   print('Lista de ingredientes: $listaIngredientes');
   print('Lista de proveedores: $listaProveedores');
   print('Lista de ingredienteProveedor: $listaIngredienteProveedor');
+  print(result);
+
 }
