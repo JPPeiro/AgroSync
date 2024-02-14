@@ -102,7 +102,7 @@ class IngredientesScreen extends StatelessWidget {
                   return _buildDataRow(
                     proveedor['id'].toString(),
                     proveedor['nombre'].toString(),
-                    proveedor['cantidad'].toString(),
+                    proveedor['cantidad'].toString()+" kilos",
                   );
                 }),
               ],
