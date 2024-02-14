@@ -53,7 +53,7 @@ class PiensosScreen extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var pienso = snapshot.data![index];
-                return CustomCard(pienso: pienso['nombre'].toString());
+                return CustomCard(pienso: pienso['nombre'].toString(),id: pienso['id']);
               },
             );
           }
@@ -65,8 +65,9 @@ class PiensosScreen extends StatelessWidget {
 
 class CustomCard extends StatelessWidget {
   final String pienso;
+  final int id;
 
-  const CustomCard({required this.pienso, Key? key}) : super(key: key);
+  const CustomCard({required this.pienso, required this.id, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class CustomCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PiensoDetailsScreen(piensoNombre: pienso),
+            builder: (context) => PiensoDetailsScreen(piensoNombre: pienso, id: id,),
           ),
         );
       },

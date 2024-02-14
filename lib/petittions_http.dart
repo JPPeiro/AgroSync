@@ -98,6 +98,34 @@ Future<List<dynamic>> obtenerPiensos() async {
     return [];
   }
 }
+Future<void> agregarPienso(int piensoId, int cantidadTotal) async {
+  var apiUrl = Uri.parse('http://localhost:8080/api/');
+
+  try {
+    var response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'piensoId': piensoId.toString(),
+        'cantidadTotal': cantidadTotal.toString(),
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // La solicitud fue exitosa
+      print('Pienso agregado exitosamente.');
+    } else {
+      // Manejar el caso de una solicitud no exitosa
+      print('Error en la solicitud, código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    // Manejar errores de red u otros errores
+    print('Error: $e');
+  }
+}
+
 
 
 //Composiciones
