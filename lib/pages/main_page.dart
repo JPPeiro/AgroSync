@@ -13,7 +13,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: const Text('Piensos'),
+        title: const Text('AgroSync'),
         leading: IconButton(
           icon: const Icon(Icons.power_settings_new_sharp),
           onPressed: () {
