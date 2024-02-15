@@ -44,7 +44,6 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
             TextFormField(
               controller: _inventarioController,
               decoration: InputDecoration(labelText: 'Inventario'),
-              obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este campo es obligatorio';
@@ -86,20 +85,20 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
 
   // Método para crear el ingrediente
   Future<void> _crearIngrediente(BuildContext context) async {
-    // if (_formKey.currentState!.validate()) {
-    //   try {
-    //     await crearIngrediente(
-    //       {
-    //         'nombre': _nombreController.text,
-    //         'inventario': _inventarioController.text,
-    //       },
-    //     );
-    //     List<dynamic> listaInventario = await obtenerIngredientes();
-    //     Navigator.pop(context, listaInventario);
-    //   } catch (e) {
-    //     print('Error al crear el ingrediente: $e');
-    //   }
-    // }
+    if (_formKey.currentState!.validate()) {
+      try {
+        await crearIngrediente(
+          {
+            'nombre': _nombreController.text,
+            'cantidad': _inventarioController.text,
+          },
+        );
+        List<dynamic> listaInventario = await obtenerIngredientes();
+        Navigator.pop(context, listaInventario);
+      } catch (e) {
+        print('Error al crear el ingrediente: $e');
+      }
+    }
   }
   // Método para editar el ingrediente
   Future<void> _editarUsuario(BuildContext context) async {
@@ -110,7 +109,7 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
           {
             'id': widget.id,
             'nombre': _nombreController.text,
-            'inventario': _inventarioController.text,
+            'cantidad': _inventarioController.text,
           },
         );
         List<dynamic> listaInventario = await obtenerIngredientes();

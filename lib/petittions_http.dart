@@ -196,6 +196,56 @@ Future<List<dynamic>> obtenerIngredientes() async {
     return [];
   }
 }
+Future<void> borrarIngrediente(int id) async {
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/$id');
+
+  try {
+    var response = await http.delete(apiUrl);
+    if (response.statusCode == 200) {
+      print('Ingrediente eliminado correctamente');
+    } else {
+      print('Error al eliminar ingrediente, código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al eliminar ingrediente: $e');
+  }
+}
+Future<void> crearIngrediente(Map<String, dynamic> ingrediente) async {
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
+
+  try {
+    var response = await http.post(
+      apiUrl,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(ingrediente),
+    );
+    if (response.statusCode == 200) {
+      print('Ingrediente creado correctamente');
+    } else {
+      print('Error al crear ingrediente, código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al crear ingrediente: $e');
+  }
+}
+Future<void> actualizarIngrediente(Map<String, dynamic> nuevoIngrediente) async {
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
+
+  try {
+    var response = await http.put(
+      apiUrl,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(nuevoIngrediente),
+    );
+    if (response.statusCode == 200) {
+      print('Ingrediente actualizado correctamente');
+    } else {
+      print('Error al actualizar ingrediente, código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al actualizar ingrediente: $e');
+  }
+}
 
 
 //Proveedores
