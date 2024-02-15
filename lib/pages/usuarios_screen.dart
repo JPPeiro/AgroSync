@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
+import 'dialogs/UsuarioDialog.dart';
 import 'forms/formulario_usuario_screen.dart';
 
 class UsuariosScreen extends StatefulWidget {
@@ -52,18 +53,24 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             backgroundColor: Colors.blue,
             icon: Icons.edit,
             onPressed: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FormularioScreen(userId: int.parse(id)),
-                ),
-              ).then((listaUsuarios) {
-                if (listaUsuarios != null) {
-                  setState(() {
-                    usuarios = listaUsuarios;
-                  });
-                }
-              });
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => FormularioScreen(userId: int.parse(id)),
+              //   ),
+              // ).then((listaUsuarios) {
+              //   if (listaUsuarios != null) {
+              //     setState(() {
+              //       usuarios = listaUsuarios;
+              //     });
+              //   }
+              // });
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return UsuarioDialog(tipo: 2,id: int.parse(id));
+                },
+              );
             },
           ),
         ],
@@ -116,6 +123,19 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return UsuarioDialog(tipo: 1,);
+                },
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerUsuarios(),

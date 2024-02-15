@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
+import 'dialogs/IngredienteDialog.dart';
 
 class IngredientesScreen extends StatelessWidget {
   IngredientesScreen({Key? key}) : super(key: key);
@@ -28,7 +29,14 @@ class IngredientesScreen extends StatelessWidget {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-            onPressed: (context) => print('Editar'),
+            onPressed: (context) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return IngredienteDialog(tipo: 2,id: int.parse(id));
+                },
+              );
+            }
           ),
         ],
       ),
@@ -77,6 +85,19 @@ class IngredientesScreen extends StatelessWidget {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return IngredienteDialog(tipo: 1,);
+                },
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerIngredientes(),

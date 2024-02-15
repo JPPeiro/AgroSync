@@ -10,8 +10,13 @@ TODO
 
 
 actualizar la pantalla cuando se fabrica el pienso para ver el resultado.
-falta hacer la verificacion y si no hay cantidad que te haga pedir los ingredientes.
-    - se tiene que poder ver en la ventana emergente debajo del input una tabla con los ingredientes y a derecha el boton para pedir pero que solo salga cuando haya comprobado que no hay stock
-    - ese boton te redirige a una pantalla que te mostrar una lista de los proveedores con los precios que vende el ingrediente en cuestion. la cantidad necesaria ya estara puesta en el input
+verificar
+si no hay mostrar tabla con ingredientes y boton fabricar
+boton fabricar redirige a pantalla con input con la cantiad necesario y una lista con todos
+los proveedores con sus precios con un boton para elegir a quien hacer el pedido.
+
+procedimiento añadir pedido fabricacion
+
     - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
-    - necesito la cantidad total que necesito al menos para poder fabricar el pienso.
+
+validar los campos de los formularios

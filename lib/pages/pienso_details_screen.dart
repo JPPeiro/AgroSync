@@ -1,3 +1,4 @@
+import 'package:agro_sync/pages/pedir_ingredientes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/petittions_http.dart';
 
@@ -253,15 +254,32 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
           ElevatedButton(
             onPressed: () async {
               if (cantidadKilos != null && cantidadKilos!.isNotEmpty) {
-                // Llamar al método agregarPienso de petittions_http.dart
                 try {
-                  await agregarPienso(id,int.parse(cantidadKilos!));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Pienso fabricado correctamente.'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                  // Llamar al método verificarStock
+                  final Map<String, dynamic> stockResult = await verificarStock(id, int.parse(cantidadKilos!));
+
+                  // Verificar si el resultado de verificarStock es true
+                  if (stockResult['result'] == true) {
+                    // Llamar al método agregarPienso
+                    await agregarPienso(id, int.parse(cantidadKilos!));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Pienso fabricado correctamente.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    Navigator.of(context).pop();
+                  } else {
+                    // Mostrar un mensaje si el stock no es suficiente
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No hay suficiente stock para fabricar el pienso.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    // Navegar a la pantalla de pedir ingredientes
+                   tabla(context, stockResult);
+                  }
                 } catch (e) {
                   print('Error al fabricar el pienso: $e');
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -271,7 +289,6 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
                     ),
                   );
                 }
-                Navigator.of(context).pop();
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -284,6 +301,71 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
             child: const Text('Fabricar'),
           ),
         ],
+      );
+    },
+  );
+}
+Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async {
+  List<dynamic> ingredientesFaltantes = stockResult['data'];
+
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Ingredientes Faltantes'),
+        content: SingleChildScrollView(
+          child: DataTable(
+            columns: [
+              DataColumn(label: Text('Nombre')),
+              DataColumn(label: Text('Acción')),
+            ],
+            rows: ingredientesFaltantes.map((ingrediente) {
+              int idIngrediente = int.parse(ingrediente['idIngrediente']);
+              double cantidad = ingrediente['cantidad'];
+              print(cantidad);
+              return DataRow(
+                cells: [
+                  DataCell(
+                    FutureBuilder(
+                      future: obtenerIngredientes(),
+                      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Obtener la lista de ingredientes
+                          List<dynamic> ingredientes = snapshot.data ?? [];
+                          // Buscar el nombre del ingrediente a partir del ID
+                          var ingrediente = ingredientes.firstWhere((ingrediente) => ingrediente['id'] == idIngrediente, orElse: () => null);
+                          // Si se encontró el ingrediente, obtener su nombre
+                          String nombreIngrediente = ingrediente != null ? ingrediente['nombre'].toString() : 'Nombre no disponible';
+
+                          return Text(nombreIngrediente);
+                        }
+                      },
+                    ),
+                  ),
+                  DataCell(
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PedirIngrediente(
+                              idIngrediente: idIngrediente,
+                              cantidadNecesaria: cantidad,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text('Pedir'),
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ),
       );
     },
   );
