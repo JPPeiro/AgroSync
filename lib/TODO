@@ -21,3 +21,4 @@ procedimiento añadir pedido fabricacion
 
 validar los campos de los formularios
 asegurar el tipo de dato en los formularios int int string string
+añadir cuando se edite ya el usuario para no tener que volver a escribir todo
