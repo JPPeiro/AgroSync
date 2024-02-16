@@ -27,12 +27,9 @@ actualizar pantalla al realizar una accion
 revisar los comentarios
 
 
-USUARIOS:
+USUARIOS/INGREDIENTES:
     -estetica
-    - form editar tener ya los campos del usuario
-INGREDIENTES:
-    -estetica
-    - form editar tener ya los campos del ingrediente
+
 PROVEEDORES:
     - estetica
     - eliminar
