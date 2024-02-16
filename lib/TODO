@@ -1,32 +1,4 @@
 TODO
-- ELIMINAR/MODIFICAR/AÑADIR (USUARIOS/PROOVEDORES)
-- MOSTRAR LISTA PEDIDO PROVEEDORES
-- PEDIR FABRICACION PIENSO.
-
-
-- CAMBIAR INFORMACION BASE DE DATOS POR "REAL"
-- PONER LOS GRAMOS A KILOS
-- HACER LOS PERMISOS
-
-
-actualizar la pantalla cuando se fabrica el pienso para ver el resultado.
-verificar
-si no hay mostrar tabla con ingredientes y boton fabricar
-boton fabricar redirige a pantalla con input con la cantiad necesario y una lista con todos
-los proveedores con sus precios con un boton para elegir a quien hacer el pedido.
-
-procedimiento añadir pedido fabricacion
-
-    - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
-
-asegurar el tipo de dato en los formularios int int string string
-añadir cuando se edite ya el usuario para no tener que volver a escribir todo
-
-actualizar pantalla al realizar una accion
-
-revisar los comentarios
-
-
 USUARIOS/INGREDIENTES:
     -estetica
 
@@ -45,6 +17,26 @@ PEDIDOS INGREDIENTES:
     - editar
     - eliminar
     - estetica
+
+- CAMBIAR INFORMACION BASE DE DATOS POR "REAL"
+- PONER LOS GRAMOS A KILOS
+- HACER LOS PERMISOS
+
+
+actualizar la pantalla cuando se fabrica el pienso para ver el resultado.
+boton fabricar redirige a pantalla con input con la cantiad necesario y una lista con todos
+los proveedores con sus precios con un boton para elegir a quien hacer el pedido.
+
+procedimiento añadir pedido fabricacion
+
+    - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
+
+asegurar el tipo de dato en los formularios int int string string
+
+revisar los comentarios
+
+
+
 
     cuando se borre un proveedor o un pienso hay que mirar en la base de datos en delete cascade o update casacade
 
