@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
 import 'dialogs/UsuarioDialog.dart';
-import 'forms/formulario_usuario_screen.dart';
 
 class UsuariosScreen extends StatefulWidget {
   const UsuariosScreen({Key? key}) : super(key: key);
@@ -52,26 +51,20 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-            onPressed: (context) {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => FormularioScreen(userId: int.parse(id)),
-              //   ),
-              // ).then((listaUsuarios) {
-              //   if (listaUsuarios != null) {
-              //     setState(() {
-              //       usuarios = listaUsuarios;
-              //     });
-              //   }
-              // });
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return UsuarioDialog(tipo: 2,id: int.parse(id));
-                },
-              );
-            },
+              onPressed: (BuildContext context) async {
+                final listaUsuarios = await showDialog<List<dynamic>>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return UsuarioDialog(tipo: 2, id: int.parse(id));
+                  },
+                );
+
+                if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
+                  setState(() {
+                    usuarios = listaUsuarios;
+                  });
+                }
+              }
           ),
         ],
       ),
@@ -125,13 +118,19 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              final listaUsuarios = await showDialog<List<dynamic>>(
                 context: context,
                 builder: (BuildContext context) {
-                  return UsuarioDialog(tipo: 1,);
+                  return UsuarioDialog(tipo: 1);
                 },
               );
+
+              if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
+                setState(() {
+                  usuarios = listaUsuarios;
+                });
+              }
             },
             icon: Icon(Icons.add),
           ),

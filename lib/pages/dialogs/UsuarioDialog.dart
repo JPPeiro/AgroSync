@@ -20,6 +20,28 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
   bool _formularioValido = false; // Estado para controlar si el formulario es válido
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.tipo == 2) {
+      _obtenerUsuarios();
+    }
+  }
+
+
+  Future<void> _obtenerUsuarios() async {
+    List<dynamic> usuarios = await obtenerUsuarios();
+
+    Map<String, dynamic>? usuarioEncontrado = usuarios.firstWhere((usuario) => usuario['id'] == widget.id, orElse: () => null);
+
+    if (usuarioEncontrado != null) {
+      _nombreController.text = usuarioEncontrado['nombre'];
+      _passwordController.text = usuarioEncontrado['contrasena'].toString();
+      _permisosController.text = usuarioEncontrado['permisos'].toString();
+    }
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     String titulo = widget.tipo == 1 ? 'Crear Usuario' : 'Editar Usuario';
     String botonTexto = widget.tipo == 1 ? 'Crear' : 'Editar';

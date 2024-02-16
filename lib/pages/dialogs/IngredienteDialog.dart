@@ -16,12 +16,32 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _inventarioController = TextEditingController();
-  bool _formularioValido = false; // Estado para controlar si el formulario es válido
+  bool _formularioValido = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.tipo == 2) {
+      _obtenerIngredientes();
+    }
+  }
+
+  Future<void> _obtenerIngredientes() async {
+    List<dynamic> ingredientes = await obtenerIngredientes();
+
+    Map<String, dynamic>? ingredienteEncontrado = ingredientes.firstWhere((ingrediente) => ingrediente['id'] == widget.id, orElse: () => null);
+
+    if (ingredienteEncontrado != null) {
+      _nombreController.text = ingredienteEncontrado['nombre'];
+      _inventarioController.text = ingredienteEncontrado['cantidad'].toString();
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    String titulo = widget.tipo == 1 ? 'Crear Ingrediente' : 'Editar Ingrediente';
-    String botonTexto = widget.tipo == 1 ? 'Crear' : 'Editar';
+    String titulo = widget.tipo == 1 ? 'Añadir Ingrediente' : 'Editar Ingrediente';
+    String botonTexto = widget.tipo == 1 ? 'Añadir' : 'Editar';
 
     return AlertDialog(
       title: Text(titulo),
@@ -63,13 +83,15 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
           child: Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: _formularioValido ? () {
+          onPressed: _formularioValido
+              ? () {
             if (widget.tipo == 1) {
               _crearIngrediente(context);
             } else if (widget.tipo == 2) {
-              _editarUsuario(context);
+              _editarIngrediente(context);
             }
-          } : null,
+          }
+              : null,
           child: Text(botonTexto),
         ),
       ],
@@ -83,7 +105,6 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
     });
   }
 
-  // Método para crear el ingrediente
   Future<void> _crearIngrediente(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -93,15 +114,15 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
             'cantidad': _inventarioController.text,
           },
         );
-        List<dynamic> listaInventario = await obtenerIngredientes();
-        Navigator.pop(context, listaInventario);
+        List<dynamic> listaIngredientes = await obtenerIngredientes();
+        Navigator.pop(context, listaIngredientes);
       } catch (e) {
         print('Error al crear el ingrediente: $e');
       }
     }
   }
-  // Método para editar el ingrediente
-  Future<void> _editarUsuario(BuildContext context) async {
+
+  Future<void> _editarIngrediente(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       print(widget.id);
       try {
@@ -112,8 +133,8 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
             'cantidad': _inventarioController.text,
           },
         );
-        List<dynamic> listaInventario = await obtenerIngredientes();
-        Navigator.pop(context, listaInventario);
+        List<dynamic> listaIngredientes = await obtenerIngredientes();
+        Navigator.pop(context, listaIngredientes);
       } catch (e) {
         print('Error al actualizar el ingrediente: $e');
       }

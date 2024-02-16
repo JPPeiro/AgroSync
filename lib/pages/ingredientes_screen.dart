@@ -3,17 +3,37 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../petittions_http.dart';
 import 'dialogs/IngredienteDialog.dart';
 
-class IngredientesScreen extends StatelessWidget {
-  IngredientesScreen({Key? key}) : super(key: key);
+class IngredientesScreen extends StatefulWidget {
+  const IngredientesScreen({super.key});
+
+  @override
+  _IngredientesScreenState createState() => _IngredientesScreenState();
+}
+
+class _IngredientesScreenState extends State<IngredientesScreen> {
+  List<dynamic> ingredientes = [];
+
+  Future<void> actualizar(int id) async {
+    try {
+      // Llama a la función para eliminar el ingrediente desde el servidor
+      await borrarIngrediente(id);
+      // Actualiza la lista de usuarios eliminando el ingrediente borrado
+      setState(() {
+        ingredientes.removeWhere((ingrediente) => ingrediente['id'] == id);
+      });
+    } catch (e) {
+      print('Error al borrar el ingrediente: $e');
+    }
+  }
 
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );
@@ -26,17 +46,23 @@ class IngredientesScreen extends StatelessWidget {
         extentRatio: 0.25,
         children: [
           SlidableAction(
-            label: 'Editar',
-            backgroundColor: Colors.blue,
-            icon: Icons.edit,
-            onPressed: (context) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return IngredienteDialog(tipo: 2,id: int.parse(id));
-                },
-              );
-            }
+              label: 'Editar',
+              backgroundColor: Colors.blue,
+              icon: Icons.edit,
+              onPressed: (BuildContext context) async {
+                final listaIngredientes = await showDialog<List<dynamic>>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return IngredienteDialog(tipo: 2, id: int.parse(id));
+                  },
+                );
+
+                if (listaIngredientes != null && listaIngredientes.isNotEmpty) {
+                  setState(() {
+                    ingredientes = listaIngredientes;
+                  });
+                }
+              }
           ),
         ],
       ),
@@ -48,15 +74,17 @@ class IngredientesScreen extends StatelessWidget {
             label: 'Eliminar',
             backgroundColor: Colors.red,
             icon: Icons.delete,
-            onPressed: (context) => print('Eliminar'),
+            onPressed: (context) {
+              actualizar(int.parse(id));
+            },
           ),
         ],
       ),
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -75,7 +103,7 @@ class IngredientesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text('Ingredientes'),
+        title: const Text('Ingredientes'),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -87,15 +115,21 @@ class IngredientesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              final listaIngredientes = await showDialog<List<dynamic>>(
                 context: context,
                 builder: (BuildContext context) {
-                  return IngredienteDialog(tipo: 1,);
+                  return IngredienteDialog(tipo: 1);
                 },
               );
+
+              if (listaIngredientes != null && listaIngredientes.isNotEmpty) {
+                setState(() {
+                  ingredientes = listaIngredientes;
+                });
+              }
             },
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
@@ -103,7 +137,7 @@ class IngredientesScreen extends StatelessWidget {
         future: obtenerIngredientes(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
@@ -111,14 +145,14 @@ class IngredientesScreen extends StatelessWidget {
               child: Text('Error: ${snapshot.error}'),
             );
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No se encontraron proveedores.'),
             );
           } else {
             return ListView(
               children: [
                 _buildHeaderRow(),
-                SizedBox(height: 8), // Espacio entre el encabezado y los datos
+                const SizedBox(height: 8), // Espacio entre el encabezado y los datos
                 ...snapshot.data!.map((proveedor) {
                   return _buildDataRow(
                     proveedor['id'].toString(),
@@ -137,9 +171,9 @@ class IngredientesScreen extends StatelessWidget {
   Widget _buildHeaderRow() {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: Colors.purple,
           borderRadius: BorderRadius.circular(10),
@@ -159,11 +193,11 @@ class IngredientesScreen extends StatelessWidget {
   Widget _buildHeaderCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.white,

@@ -19,6 +19,34 @@ procedimiento añadir pedido fabricacion
 
     - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
 
-validar los campos de los formularios
 asegurar el tipo de dato en los formularios int int string string
 añadir cuando se edite ya el usuario para no tener que volver a escribir todo
+
+actualizar pantalla al realizar una accion
+
+revisar los comentarios
+
+
+USUARIOS:
+    -estetica
+    - form editar tener ya los campos del usuario
+INGREDIENTES:
+    -estetica
+    - form editar tener ya los campos del ingrediente
+PROVEEDORES:
+    - estetica
+    - eliminar
+    - editar
+    - crear
+Piensos:
+    - añadir
+    - editar
+    - eliminar
+    - estetica
+PEDIDOS INGREDIENTES:
+    - MOSTRAR LA TABLA
+    - editar
+    - eliminar
+    - estetica
+
+    cuando se borre un proveedor o un pienso hay que mirar en la base de datos en delete cascade o update casacade
