@@ -47,3 +47,5 @@ PEDIDOS INGREDIENTES:
     - estetica
 
     cuando se borre un proveedor o un pienso hay que mirar en la base de datos en delete cascade o update casacade
+
+    cuando editas un usuario la contraseña si no la cambias se guarda a null
