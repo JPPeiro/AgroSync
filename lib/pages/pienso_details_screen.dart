@@ -198,7 +198,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                           ),
                           DataCell(
                             Text(
-                              '${detalle['cantidad']} gramos',
+                              '${detalle['cantidad']} kilos',
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -312,12 +312,12 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Ingredientes Faltantes'),
+        title: const Text('Ingredientes Faltantes'),
         content: SingleChildScrollView(
           child: DataTable(
             columns: [
-              DataColumn(label: Text('Nombre')),
-              DataColumn(label: Text('Acción')),
+              const DataColumn(label: Text('Nombre')),
+              const DataColumn(label: Text('Acción')),
             ],
             rows: ingredientesFaltantes.map((ingrediente) {
               int idIngrediente = int.parse(ingrediente['idIngrediente']);
@@ -330,7 +330,7 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
                       future: obtenerIngredientes(),
                       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else {
@@ -358,7 +358,7 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
                           ),
                         );
                       },
-                      child: Text('Pedir'),
+                      child: const Text('Pedir'),
                     ),
                   ),
                 ],

@@ -297,6 +297,50 @@ Future<List<dynamic>> obtenerIngredienteProveedor() async {
   }
 }
 
+
+//PedidosIngredientes
+Future<List<dynamic>> obtenerPedidos() async {
+  // Construir la URL de la API utilizando Uri.parse
+  var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
+
+  try {
+    var response = await http.get(apiUrl);
+    if (response.statusCode == 200) {
+      // Parsear la respuesta JSON
+      var data = jsonDecode(response.body);
+      // Devolver la lista de usuarios
+      return data;
+    } else {
+      // Manejar el caso de una solicitud no exitosa
+      print('Error en la solicitud, código de estado: ${response.statusCode}');
+      return [];
+    }
+  } catch (e) {
+    // Manejar errores de red u otros errores
+    print('Error: $e');
+    return [];
+  }
+}
+Future<void> crearPedido(Map<String, dynamic> pedidos) async {
+  var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
+
+  try {
+    var response = await http.post(
+      apiUrl,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(pedidos),
+    );
+    if (response.statusCode == 200) {
+      print('Pedido creado correctamente');
+    } else {
+      print('Error al crear pedido, código de estado: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error al crear pedido: $e');
+  }
+}
+
+
 void main() async {
   List<dynamic> listaUsuarios = await obtenerUsuarios();
   List<dynamic> listaPiensos = await obtenerPiensos();

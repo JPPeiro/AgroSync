@@ -28,25 +28,31 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
 
   Future<void> _fetchData() async {
     // Obtener los datos de los proveedores que venden el ingrediente específico
-    List<dynamic> ingredientesProveedoresData = await obtenerIngredienteProveedor();
+    List<
+        dynamic> ingredientesProveedoresData = await obtenerIngredienteProveedor();
     setState(() {
       // Filtrar los datos para obtener solo aquellos cuyo idIngrediente coincida
-      ingredientesProveedores = ingredientesProveedoresData.where((proveedor) => proveedor['idIngrediente'] == widget.idIngrediente).toList();
+      ingredientesProveedores = ingredientesProveedoresData.where((proveedor) =>
+      proveedor['idIngrediente'] == widget.idIngrediente)
+          .toList();
     });
 
     // Obtener los idProveedor de los ingredientes filtrados
-    List<int> idProveedores = ingredientesProveedores.map<int>((proveedor) => proveedor['idProveedor']).toList();
+    List<int> idProveedores = ingredientesProveedores.map<int>((
+        proveedor) => proveedor['idProveedor']).toList();
 
     // Obtener los datos de los proveedores con los idProveedor filtrados
     List<dynamic> proveedoresData = await obtenerProveedores();
     setState(() {
       // Filtrar los proveedores para obtener solo aquellos con idProveedor en idProveedores
-      proveedores = proveedoresData.where((proveedor) => idProveedores.contains(proveedor['id'])).toList();
+      proveedores = proveedoresData.where((proveedor) =>
+          idProveedores.contains(proveedor['id'])).toList();
     });
 
     // Obtener y asignar el nombre del proveedor a cada entrada en ingredientesProveedores
     for (var proveedor in ingredientesProveedores) {
-      var nombreProveedor = proveedores.firstWhere((p) => p['id'] == proveedor['idProveedor'], orElse: () => null);
+      var nombreProveedor = proveedores.firstWhere((p) =>
+      p['id'] == proveedor['idProveedor'], orElse: () => null);
       if (nombreProveedor != null) {
         proveedor['nombre'] = nombreProveedor['nombre'];
       }
@@ -90,34 +96,50 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
 
   Widget _buildProveedoresTable() {
     return DataTable(
-      columns: [
-        const DataColumn(label: Text('Proveedor')),
-        const DataColumn(label: Text('Precio')),
-        const DataColumn(label: Text('Acción')),
+      columns: const [
+        DataColumn(label: Text('Proveedor')),
+        DataColumn(label: Text('Precio')),
+        DataColumn(label: Text('Acción')),
       ],
       rows: ingredientesProveedores.map((proveedor) {
         return DataRow(cells: [
           DataCell(Text(proveedor['nombre'] ?? 'Proveedor no disponible')),
           DataCell(Text(proveedor['precio'].toString())),
-          DataCell(ElevatedButton(
-            onPressed: () {
-              // Agregar lógica para pedir aquí
-            },
-            child: const Text('Pedir'),
+          DataCell(Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _calcularPrecioTotal(proveedor);
+                },
+                child: const Text('Calcular'),
+              ),
+              SizedBox(width: 8), // Espacio entre los botones
+              ElevatedButton(
+                onPressed: () {
+                  addPedido(proveedor, cantidadKilos);
+                },
+                child: const Text('Pedir'),
+              ),
+            ],
           )),
         ]);
       }).toList(),
     );
   }
 
-  void _fabricarPienso() {
+  void _calcularPrecioTotal(Map<String, dynamic> proveedor) {
     if (cantidadKilos.isNotEmpty) {
       double cantidadFabricada = double.tryParse(cantidadKilos) ?? 0;
       if (cantidadFabricada > 0) {
-        // Agrega aquí la lógica para procesar la cantidad fabricada
-        // Por ejemplo, puedes llamar a una función onFabricar pasándole la cantidad fabricada.
-        // onFabricar(cantidadFabricada);
-        Navigator.of(context).pop();
+        double precioPorKilo = proveedor['precio'] ?? 0;
+        double precioTotal = cantidadFabricada * precioPorKilo;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'El precio total es: \$${precioTotal.toStringAsFixed(2)}'),
+            duration: Duration(seconds: 2),
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -133,6 +155,26 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
           duration: Duration(seconds: 2),
         ),
       );
+    }
+  }
+  Future<void> addPedido(Map<String, dynamic> proveedor, String cantidadKilos) async {
+    double cantidad = double.tryParse(cantidadKilos) ?? 0;
+    double precioPorKilo = proveedor['precio'] ?? 0;
+    double costoTotal = cantidad * precioPorKilo;
+
+    try {
+      await crearPedido(
+        {
+          'proveedorId': proveedor['idProveedor'],
+          'ingredienteId': proveedor['idIngrediente'],
+          'cantidad': cantidad,
+          'coste': costoTotal,
+        }
+      );
+      print('Pedido creado correctamente');
+      Navigator.pop(context);
+    } catch (e) {
+      print('Error al crear el pedido: $e');
     }
   }
 }

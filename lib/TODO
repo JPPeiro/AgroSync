@@ -4,19 +4,18 @@ USUARIOS/INGREDIENTES:
 
 PROVEEDORES:
     - estetica
-    - eliminar
     - editar
     - crear
 Piensos:
     - añadir
     - editar
-    - eliminar
     - estetica
+
 PEDIDOS INGREDIENTES:
     - MOSTRAR LA TABLA
-    - editar
-    - eliminar
     - estetica
+
+falta actualizar la cantidad de la tabla de ingredientes.
 
 - CAMBIAR INFORMACION BASE DE DATOS POR "REAL"
 - PONER LOS GRAMOS A KILOS
@@ -31,15 +30,10 @@ procedimiento añadir pedido fabricacion
 
     - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
 
-asegurar el tipo de dato en los formularios int int string string
+- asegurar el tipo de dato en los formularios int int string string
 
-revisar los comentarios
-
-
-
-
-    cuando se borre un proveedor o un pienso hay que mirar en la base de datos en delete cascade o update casacade
-
-    cuando editas un usuario la contraseña si no la cambias se guarda a null
-
-    permisos de usuarios
+-revisar los comentarios
+-cuando editas un usuario la contraseña si no la cambias se guarda a null
+-permisos de usuarios
+- para el login compara el hash de la contraseña
+- no funciona bien lo deverificadr  para el pienso 1 con el ingrediente 1, no resta cantidad al ingrediente cuando es con decimales.
