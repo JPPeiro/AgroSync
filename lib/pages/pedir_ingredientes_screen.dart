@@ -28,25 +28,21 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
 
   Future<void> _fetchData() async {
     // Obtener los datos de los proveedores que venden el ingrediente específico
-    List<
-        dynamic> ingredientesProveedoresData = await obtenerIngredienteProveedor();
+    List<dynamic> ingredientesProveedoresData = await obtenerIngredienteProveedor();
     setState(() {
       // Filtrar los datos para obtener solo aquellos cuyo idIngrediente coincida
       ingredientesProveedores = ingredientesProveedoresData.where((proveedor) =>
-      proveedor['idIngrediente'] == widget.idIngrediente)
-          .toList();
+      proveedor['idIngrediente'] == widget.idIngrediente).toList();
     });
 
     // Obtener los idProveedor de los ingredientes filtrados
-    List<int> idProveedores = ingredientesProveedores.map<int>((
-        proveedor) => proveedor['idProveedor']).toList();
+    List<int> idProveedores = ingredientesProveedores.map<int>((proveedor) => proveedor['idProveedor']).toList();
 
     // Obtener los datos de los proveedores con los idProveedor filtrados
     List<dynamic> proveedoresData = await obtenerProveedores();
     setState(() {
       // Filtrar los proveedores para obtener solo aquellos con idProveedor en idProveedores
-      proveedores = proveedoresData.where((proveedor) =>
-          idProveedores.contains(proveedor['id'])).toList();
+      proveedores = proveedoresData.where((proveedor) => idProveedores.contains(proveedor['id'])).toList();
     });
 
     // Obtener y asignar el nombre del proveedor a cada entrada en ingredientesProveedores
@@ -116,6 +112,18 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
               SizedBox(width: 8), // Espacio entre los botones
               ElevatedButton(
                 onPressed: () {
+                  double cantidadIngresada = double.tryParse(cantidadKilos) ?? 0;
+
+                  if (cantidadIngresada < widget.cantidadNecesaria) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  }
+                  aumentar(widget.idIngrediente, cantidadKilos);
                   addPedido(proveedor, cantidadKilos);
                 },
                 child: const Text('Pedir'),
@@ -135,8 +143,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
         double precioTotal = cantidadFabricada * precioPorKilo;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-                'El precio total es: \$${precioTotal.toStringAsFixed(2)}'),
+            content: Text('El precio total es: \$${precioTotal.toStringAsFixed(2)}'),
             duration: Duration(seconds: 2),
           ),
         );
@@ -173,6 +180,14 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       );
       print('Pedido creado correctamente');
       Navigator.pop(context);
+    } catch (e) {
+      print('Error al crear el pedido: $e');
+    }
+  }
+
+  Future<void> aumentar(int id, String cantidad) async {
+    try {
+      await aumentarCantidad(id,cantidad);
     } catch (e) {
       print('Error al crear el pedido: $e');
     }

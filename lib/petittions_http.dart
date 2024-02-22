@@ -339,7 +339,23 @@ Future<void> crearPedido(Map<String, dynamic> pedidos) async {
     print('Error al crear pedido: $e');
   }
 }
+Future<void> aumentarCantidad(int id, String cantidad) async {
+  final url = Uri.parse('http://localhost:8080/api/ingredientesCantidad/?id=$id&cantidad=$cantidad');
 
+  try {
+    final response = await http.put(url);
+
+    if (response.statusCode == 200) {
+      print('Cantidad de ingrediente actualizada correctamente');
+    } else {
+      print('Error al actualizar la cantidad del ingrediente');
+      print('Código de estado: ${response.statusCode}');
+      print('Mensaje: ${response.body}');
+    }
+  } catch (e) {
+    print('Error en la solicitud HTTP: $e');
+  }
+}
 
 void main() async {
   List<dynamic> listaUsuarios = await obtenerUsuarios();
@@ -348,6 +364,7 @@ void main() async {
   List<dynamic> listaIngredientes = await obtenerIngredientes();
   List<dynamic> listaProveedores = await obtenerProveedores();
   List<dynamic> listaIngredienteProveedor = await obtenerIngredienteProveedor();
+  List<dynamic> listaPedidos = await obtenerPedidos();
   final result = await verificarStock(1, 1);
 
   print('Lista de usuarios: $listaUsuarios');
@@ -356,6 +373,7 @@ void main() async {
   print('Lista de ingredientes: $listaIngredientes');
   print('Lista de proveedores: $listaProveedores');
   print('Lista de ingredienteProveedor: $listaIngredienteProveedor');
-  print(result);
+  print('Lista de pedidos: $listaPedidos');
 
+  print(result);
 }

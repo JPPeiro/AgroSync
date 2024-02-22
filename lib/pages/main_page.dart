@@ -1,4 +1,5 @@
 import 'package:agro_sync/pages/ingredientes_screen.dart';
+import 'package:agro_sync/pages/pedidosIngrediente_screen.dart';
 import 'package:agro_sync/pages/proovedores_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/pages/login_page.dart';
@@ -82,7 +83,7 @@ class MainPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PiensosScreen(),
+                    builder: (context) => PedidosIngredientes(),
                   ),
                 );
               },

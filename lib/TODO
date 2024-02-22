@@ -1,39 +1,25 @@
 TODO
-USUARIOS/INGREDIENTES:
-    -estetica
+USUARIOS/INGREDIENTES/PEDIDOS/PROVEEDORES/PIENSO/FORMULARIO PEDIDOS:
+    - estetica
+    - estetica listas
 
 PROVEEDORES:
-    - estetica
     - editar
     - crear
 Piensos:
     - añadir
     - editar
-    - estetica
 
-PEDIDOS INGREDIENTES:
-    - MOSTRAR LA TABLA
-    - estetica
+- ACTUALIZAR LA PANTALLA CUANDO SE FABRICA EL PIENSO PARA VER EL RESULTADO
+- ACTUALIZAR LA PANTALLA DE LOS INGREDIENTE FALTANTES
+- CUANDO EDITAS UN USUARIO LA CONTRASEÑA SI NO LA CAMBIAS SE GUARDA A NULL
+- MOSTRAR EL NOMBRE DEL PROVEEDOR Y EL NOMBRE DEL INGREDIENTE EN LA TABLA PEDIDOS
 
-falta actualizar la cantidad de la tabla de ingredientes.
 
 - CAMBIAR INFORMACION BASE DE DATOS POR "REAL"
 - PONER LOS GRAMOS A KILOS
+- REVISAR LOS COMENTARIOS
+- ASEGURAR EL TIPO DE DATO EN LOS FORMULARIOS
+- AJUSTAR LOS FORMULARIOS AL TAMAÑO DE MOVIL
 - HACER LOS PERMISOS
-
-
-actualizar la pantalla cuando se fabrica el pienso para ver el resultado.
-boton fabricar redirige a pantalla con input con la cantiad necesario y una lista con todos
-los proveedores con sus precios con un boton para elegir a quien hacer el pedido.
-
-procedimiento añadir pedido fabricacion
-
-    - pero el input se tiene que poder pedir más pero no menos osea tiene que antes de hacer el pedido comprobar que la cantidad es mayor o igual a la cantidad necesaria.
-
-- asegurar el tipo de dato en los formularios int int string string
-
--revisar los comentarios
--cuando editas un usuario la contraseña si no la cambias se guarda a null
--permisos de usuarios
-- para el login compara el hash de la contraseña
-- no funciona bien lo deverificadr  para el pienso 1 con el ingrediente 1, no resta cantidad al ingrediente cuando es con decimales.
+- PARA EL LOGIN COMPARAR EL HASH DE LA CONTRASEÑA
