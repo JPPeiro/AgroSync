@@ -88,7 +88,6 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildDataCell(id),
               _buildDataCell(nombre),
               _buildDataCell(inventario),
             ],
@@ -181,7 +180,6 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildHeaderCell('ID'),
             _buildHeaderCell('Nombre'),
             _buildHeaderCell('Inventario'),
           ],

@@ -90,7 +90,6 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildDataCell(id),
               _buildDataCell(nombre),
               _buildDataCell(contrasena),
               _buildDataCell(permisos),
@@ -187,7 +186,6 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildHeaderCell('ID'),
             _buildHeaderCell('Nombre'),
             _buildHeaderCell('Contraseña'),
             _buildHeaderCell('Permisos'),
