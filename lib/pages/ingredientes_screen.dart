@@ -15,9 +15,7 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
 
   Future<void> actualizar(int id) async {
     try {
-      // Llama a la función para eliminar el ingrediente desde el servidor
       await borrarIngrediente(id);
-      // Actualiza la lista de usuarios eliminando el ingrediente borrado
       setState(() {
         ingredientes.removeWhere((ingrediente) => ingrediente['id'] == id);
       });
@@ -33,7 +31,7 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
@@ -171,10 +169,14 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.deepPurple,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.purple,
+          color: Colors.deepPurple,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

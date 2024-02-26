@@ -55,7 +55,6 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
                   return UsuarioDialog(tipo: 2, id: int.parse(id));
                 },
               );
-
               if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
                 setState(() {
                   usuarios = listaUsuarios;
@@ -85,7 +84,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        color: Colors.grey[900], // Cambio de color del fondo de la tarjeta
+        color: Colors.grey[900],
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
@@ -104,7 +103,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Cambio de color del fondo
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           'Usuarios',

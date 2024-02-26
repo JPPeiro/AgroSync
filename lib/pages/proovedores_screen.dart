@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
+import 'dialogs/ProveedorDialog.dart';
 
-class ProveedoresScreen extends StatelessWidget {
+class ProveedoresScreen extends StatefulWidget {
   ProveedoresScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProveedorScreenState createState() => _ProveedorScreenState();
+}
+
+class _ProveedorScreenState extends State<ProveedoresScreen> {
+  List<dynamic> proveedores = [];
 
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
@@ -28,7 +37,19 @@ class ProveedoresScreen extends StatelessWidget {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-            onPressed: (context) => print('Editar'),
+            onPressed: (BuildContext context) async {
+              final listaProveedores = await showDialog<List<dynamic>>(
+                context: context,
+                builder: (BuildContext context) {
+                  return ProveedorDialog(tipo: 2, id: int.parse(id));
+                },
+              );
+              if (listaProveedores != null && listaProveedores.isNotEmpty) {
+                setState(() {
+                  proveedores = listaProveedores;
+                });
+              }
+            },
           ),
         ],
       ),
@@ -46,9 +67,13 @@ class ProveedoresScreen extends StatelessWidget {
       ),
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.grey[900],
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -64,24 +89,22 @@ class ProveedoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Proveedores'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.green.shade300, Colors.green.shade500],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        title: Text(
+          'Proveedores',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.grey[900],
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerProveedores(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
@@ -89,15 +112,16 @@ class ProveedoresScreen extends StatelessWidget {
               child: Text('Error: ${snapshot.error}'),
             );
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No se encontraron proveedores.'),
             );
           } else {
+            proveedores = snapshot.data!;
             return ListView(
               children: [
                 _buildHeaderRow(),
-                SizedBox(height: 8), // Espacio entre el encabezado y los datos
-                ...snapshot.data!.map((proveedor) {
+                const SizedBox(height: 8),
+                ...proveedores.map((proveedor) {
                   return _buildDataRow(
                     proveedor['id'].toString(),
                     proveedor['nombre'].toString(),
@@ -114,17 +138,21 @@ class ProveedoresScreen extends StatelessWidget {
   Widget _buildHeaderRow() {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.teal,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: Colors.teal,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildHeaderCell('ID'),
+            _buildHeaderCell('Id'),
             _buildHeaderCell('Nombre'),
           ],
         ),
@@ -135,11 +163,11 @@ class ProveedoresScreen extends StatelessWidget {
   Widget _buildHeaderCell(String text) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.white,
