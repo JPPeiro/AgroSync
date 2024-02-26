@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
 import 'dialogs/UsuarioDialog.dart';
 
@@ -13,12 +14,9 @@ class UsuariosScreen extends StatefulWidget {
 class _UsuariosScreenState extends State<UsuariosScreen> {
   List<dynamic> usuarios = [];
 
-
   Future<void> actualizar(int id) async {
     try {
-      // Llama a la función para eliminar el usuario desde el servidor
       await borrarUsuario(id);
-      // Actualiza la lista de usuarios eliminando el usuario borrado
       setState(() {
         usuarios.removeWhere((usuario) => usuario['id'] == id);
       });
@@ -26,7 +24,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
       print('Error al borrar el usuario: $e');
     }
   }
-  // Método para construir una celda de datos
+
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
@@ -34,13 +32,12 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16, color: Colors.white), // Cambio de color del texto
         ),
       ),
     );
   }
 
-  // Método para construir una fila de datos
   Widget _buildDataRow(String id, String nombre, String contrasena, String permisos) {
     return Slidable(
       startActionPane: ActionPane(
@@ -51,20 +48,20 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-              onPressed: (BuildContext context) async {
-                final listaUsuarios = await showDialog<List<dynamic>>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return UsuarioDialog(tipo: 2, id: int.parse(id));
-                  },
-                );
+            onPressed: (BuildContext context) async {
+              final listaUsuarios = await showDialog<List<dynamic>>(
+                context: context,
+                builder: (BuildContext context) {
+                  return UsuarioDialog(tipo: 2, id: int.parse(id));
+                },
+              );
 
-                if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
-                  setState(() {
-                    usuarios = listaUsuarios;
-                  });
-                }
+              if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
+                setState(() {
+                  usuarios = listaUsuarios;
+                });
               }
+            },
           ),
         ],
       ),
@@ -85,6 +82,10 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.grey[900], // Cambio de color del fondo de la tarjeta
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
@@ -103,18 +104,16 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black, // Cambio de color del fondo
       appBar: AppBar(
-        title: const Text('Usuarios'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue.shade300, Colors.blue.shade500],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        title: Text(
+          'Usuarios',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.grey[900],
         actions: [
           IconButton(
             onPressed: () async {
@@ -124,14 +123,14 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
                   return UsuarioDialog(tipo: 1);
                 },
               );
-
               if (listaUsuarios != null && listaUsuarios.isNotEmpty) {
                 setState(() {
                   usuarios = listaUsuarios;
                 });
               }
             },
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
+            color: Colors.white,
           ),
         ],
       ),
@@ -151,12 +150,11 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
               child: Text('No se encontraron usuarios.'),
             );
           } else {
-            // Almacena los usuarios en la lista usuarios
             usuarios = snapshot.data!;
             return ListView(
               children: [
                 _buildHeaderRow(),
-                const SizedBox(height: 8), // Espacio entre el encabezado y los datos
+                const SizedBox(height: 8),
                 ...usuarios.map((usuario) {
                   return _buildDataRow(
                     usuario['id'].toString(),
@@ -177,10 +175,14 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.indigo, // Cambio de color del fondo de la cabecera
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.indigo, // Cambio de color del fondo de la cabecera
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

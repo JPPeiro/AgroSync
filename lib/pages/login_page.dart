@@ -2,9 +2,10 @@ import 'package:agro_sync/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/components/my_button.dart';
 import 'package:agro_sync/components/my_textfield.dart';
+import 'package:colorful_background/colorful_background.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../petittions_http.dart';
-import 'piensos_screen.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key});
@@ -38,7 +39,7 @@ class LoginPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MainPage(),
+        builder: (context) => const MainPage(),
       ),
     );
   }
@@ -46,47 +47,110 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[300],
-      body: SafeArea(
-        child: SingleChildScrollView(
+      backgroundColor: Colors.black,
+      body: ColorfulBackground(
+        duration: Duration(milliseconds: 1000),
+        backgroundColors: const [
+          Color(0xFF121212),
+          Color(0xFF121212),
+        ],
+        decoratorsList: [
+          Positioned(
+            top: MediaQuery.of(context).size.height / 2,
+            right: MediaQuery.of(context).size.width / 2.5,
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ) ,
+          Positioned(
+            top: 40,
+            right: 20,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.yellow.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 200,
+            right: 90,
+            child: Container(
+              height: 120,
+              width: 120,
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 2,
+            right: 90,
+            child: Container(
+              height: 80,
+              width: 80,
+              decoration: BoxDecoration(
+                color: Colors.purple.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 1.45,
+            right: 90,
+            child: Container(
+              height: 120,
+              width: 120,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ],
+      child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 50),
-                Image.asset(
-                  'assets/img/logo.png',
-                  width: 250,
-                  height: 250,
-                ),
-                SizedBox(height: 30),
+                const SizedBox(height: 50),
                 Text(
-                  '¡Bienvenido de vuelta!',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  'Agro Sync',
+                  style: GoogleFonts.majorMonoDisplay(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 150),
                 MyTextField(
                   controller: usernameController,
                   hintText: 'Usuario',
                   obscureText: false,
+                  suffixIconData: Icons.person,
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Contraseña',
                   obscureText: true,
+                  suffixIconData: Icons.lock,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 100),
                 MyButton(
                     onTap: () => signInUser(context),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
               ],
             ),
           ),

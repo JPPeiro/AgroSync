@@ -1,5 +1,5 @@
 TODO
-USUARIOS/INGREDIENTES/PEDIDOS/PROVEEDORES/PIENSO/FORMULARIO PEDIDOS:
+USUARIOS/INGREDIENTES/PEDIDOS/PROVEEDORES/PIENSO/PEDIDOS:
     - estetica
     - estetica listas
 
@@ -22,3 +22,10 @@ Piensos:
 - AJUSTAR LOS FORMULARIOS AL TAMAÑO DE MOVIL
 - HACER LOS PERMISOS
 - PARA EL LOGIN COMPARAR EL HASH DE LA CONTRASEÑA
+
+flutter_native_splash
+https://youtu.be/5vDq5DXXxss?t=197
+https://youtu.be/5vDq5DXXxss?t=248
+
+hacer la animacion del fondo
+mejorar el codigo

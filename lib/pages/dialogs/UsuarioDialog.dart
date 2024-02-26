@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
 import '../../petittions_http.dart';
 
 class UsuarioDialog extends StatefulWidget {
   final int tipo; // Parámetro para indicar si se está creando (1) o editando (2) un usuario
   final int? id;
 
-  UsuarioDialog({required this.tipo, this.id});
+  const UsuarioDialog({super.key, required this.tipo, this.id});
 
   @override
   _CrearUsuarioDialogState createState() => _CrearUsuarioDialogState();
@@ -27,18 +26,19 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
     }
   }
 
-
   Future<void> _obtenerUsuarios() async {
     List<dynamic> usuarios = await obtenerUsuarios();
 
-    Map<String, dynamic>? usuarioEncontrado = usuarios.firstWhere((usuario) => usuario['id'] == widget.id, orElse: () => null);
+    Map<String, dynamic>? usuarioEncontrado = usuarios.firstWhere(
+          (usuario) => usuario['id'] == widget.id,
+      orElse: () => null,
+    );
 
     if (usuarioEncontrado != null) {
       _nombreController.text = usuarioEncontrado['nombre'];
       _passwordController.text = usuarioEncontrado['contrasena'].toString();
       _permisosController.text = usuarioEncontrado['permisos'].toString();
     }
-
   }
 
   @override
@@ -47,7 +47,11 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
     String botonTexto = widget.tipo == 1 ? 'Crear' : 'Editar';
 
     return AlertDialog(
-      title: Text(titulo),
+      backgroundColor: Colors.grey[900],
+      title: Text(
+        titulo,
+        style: const TextStyle(color: Colors.white),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -55,7 +59,17 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
           children: [
             TextFormField(
               controller: _nombreController,
-              decoration: InputDecoration(labelText: 'Nombre'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Nombre',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este campo es obligatorio';
@@ -66,7 +80,17 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
             ),
             TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Contraseña'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Contraseña',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
               obscureText: true,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -78,7 +102,17 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
             ),
             TextFormField(
               controller: _permisosController,
-              decoration: InputDecoration(labelText: 'Permisos'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Permisos',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este campo es obligatorio';
@@ -95,16 +129,21 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
           onPressed: () {
             Navigator.of(context).pop(); // Cierra el diálogo al presionar Cancelar
           },
-          child: Text('Cancelar'),
+          child: const Text(
+            'Cancelar',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         ElevatedButton(
-          onPressed: _formularioValido ? () {
+          onPressed: _formularioValido
+              ? () {
             if (widget.tipo == 1) {
               _crearUsuario(context);
             } else if (widget.tipo == 2) {
               _editarUsuario(context);
             }
-          } : null,
+          }
+              : null,
           child: Text(botonTexto),
         ),
       ],
@@ -122,13 +161,11 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
   Future<void> _crearUsuario(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       try {
-        await crearUsuario(
-        {
+        await crearUsuario({
           'nombre': _nombreController.text,
           'password': _passwordController.text,
           'permisos': _permisosController.text,
-        },
-        );
+        });
         List<dynamic> listaUsuarios = await obtenerUsuarios();
         Navigator.pop(context, listaUsuarios);
       } catch (e) {
@@ -136,19 +173,18 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
       }
     }
   }
+
   // Método para editar el usuario
   Future<void> _editarUsuario(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       print(widget.id);
       try {
-        await actualizarUsuario(
-          {
-            'id': widget.id,
-            'nombre': _nombreController.text,
-            'password': _passwordController.text,
-            'permisos': _permisosController.text,
-          },
-        );
+        await actualizarUsuario({
+          'id': widget.id,
+          'nombre': _nombreController.text,
+          'password': _passwordController.text,
+          'permisos': _permisosController.text,
+        });
         List<dynamic> listaUsuarios = await obtenerUsuarios();
         Navigator.pop(context, listaUsuarios);
       } catch (e) {

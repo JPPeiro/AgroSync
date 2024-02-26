@@ -49,12 +49,12 @@ class PiensosScreen extends StatelessWidget {
               child: Text('No se encontraron piensos.'),
             );
           } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                var pienso = snapshot.data![index];
-                return CustomCard(pienso: pienso['nombre'].toString(),id: pienso['id']);
-              },
+            return ListWheelScrollView(
+              itemExtent: 300, // Altura de cada elemento en la lista
+              children: snapshot.data!.map<Widget>((pienso) {
+                return CustomCard(pienso: pienso['nombre'].toString(), id: pienso['id']);
+              }).toList(),
+              // diameterRatio: 2,
             );
           }
         },

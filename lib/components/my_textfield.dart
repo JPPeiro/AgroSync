@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final bool obscureText;
+  final IconData? suffixIconData;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    this.suffixIconData,
   });
 
   @override
@@ -19,17 +21,18 @@ class MyTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        style: const TextStyle(color: Colors.white70),
         decoration: InputDecoration(
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade400),
-            ),
-            fillColor: Colors.grey.shade200,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[500])),
+          suffixIcon: suffixIconData != null ? Icon(suffixIconData, color: Colors.white70) : null,
+          labelText: hintText,
+          labelStyle: const TextStyle(color: Colors.white70),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white70),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white70),
+          ),
+        ),
       ),
     );
   }
