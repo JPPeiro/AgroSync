@@ -125,7 +125,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 50),
                 Text(
-                  'Agro Sync',
+                  'AgroSync',
                   style: GoogleFonts.majorMonoDisplay(
                     color: Colors.white,
                     fontSize: 50,
