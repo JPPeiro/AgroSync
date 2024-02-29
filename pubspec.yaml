@@ -39,6 +39,7 @@ dependencies:
   flutter_native_splash: ^2.3.11
   colorful_background: ^0.0.4
   google_fonts: ^6.1.0
+  vertical_card_pager:
 
 dev_dependencies:
   flutter_test:

@@ -32,7 +32,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: Colors.white), // Cambio de color del texto
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
@@ -177,11 +177,11 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      color: Colors.indigo, // Cambio de color del fondo de la cabecera
+      color: Colors.indigo,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.indigo, // Cambio de color del fondo de la cabecera
+          color: Colors.indigo,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

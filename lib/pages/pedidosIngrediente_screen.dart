@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
 
-class PedidosIngredientes extends StatelessWidget {
+class PedidosIngredientes extends StatefulWidget {
   PedidosIngredientes({super.key});
 
+  @override
+  _PedidosScreenState createState() => _PedidosScreenState();
+}
+
+class _PedidosScreenState extends State<PedidosIngredientes> {
+  List<dynamic> pedidos = [];
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
@@ -12,7 +19,7 @@ class PedidosIngredientes extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
     );
@@ -47,6 +54,10 @@ class PedidosIngredientes extends StatelessWidget {
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.grey[900],
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
@@ -66,18 +77,16 @@ class PedidosIngredientes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Pedidos Ingredientes'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.red.shade300, Colors.red.shade500],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        title: Text(
+          'Pedidos Ingredientes',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.grey[900],
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerPedidos(),
@@ -95,11 +104,12 @@ class PedidosIngredientes extends StatelessWidget {
               child: Text('No se encontraron pedidos.'),
             );
           } else {
+            pedidos = snapshot.data!;
             return ListView(
               children: [
                 _buildHeaderRow(),
-                const SizedBox(height: 8), // Espacio entre el encabezado y los datos
-                ...snapshot.data!.map((pedidos) {
+                const SizedBox(height: 8),
+                ...pedidos.map((pedidos) {
                   return _buildDataRow(
                     pedidos['proveedorId'].toString(),
                     pedidos['ingredienteId'].toString(),
@@ -119,6 +129,10 @@ class PedidosIngredientes extends StatelessWidget {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.red,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(

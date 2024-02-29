@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
 import 'dialogs/IngredienteDialog.dart';
 
@@ -54,7 +55,6 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
                     return IngredienteDialog(tipo: 2, id: int.parse(id));
                   },
                 );
-
                 if (listaIngredientes != null && listaIngredientes.isNotEmpty) {
                   setState(() {
                     ingredientes = listaIngredientes;
@@ -81,6 +81,10 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.grey[900],
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Row(
@@ -98,18 +102,16 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Ingredientes'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.purple.shade300, Colors.purple.shade500],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        title: Text(
+          'Ingredientes',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.grey[900],
         actions: [
           IconButton(
             onPressed: () async {
@@ -119,7 +121,6 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
                   return IngredienteDialog(tipo: 1);
                 },
               );
-
               if (listaIngredientes != null && listaIngredientes.isNotEmpty) {
                 setState(() {
                   ingredientes = listaIngredientes;
@@ -127,6 +128,7 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
               }
             },
             icon: const Icon(Icons.add),
+            color: Colors.white,
           ),
         ],
       ),
@@ -143,18 +145,19 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
             );
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
             return const Center(
-              child: Text('No se encontraron proveedores.'),
+              child: Text('No se encontraron ingredientes.'),
             );
           } else {
+            ingredientes = snapshot.data!;
             return ListView(
               children: [
                 _buildHeaderRow(),
-                const SizedBox(height: 8), // Espacio entre el encabezado y los datos
-                ...snapshot.data!.map((proveedor) {
+                const SizedBox(height: 8),
+                ...ingredientes.map((ingrediente) {
                   return _buildDataRow(
-                    proveedor['id'].toString(),
-                    proveedor['nombre'].toString(),
-                    proveedor['cantidad'].toString()+" kilos",
+                    ingrediente['id'].toString(),
+                    ingrediente['nombre'].toString(),
+                    ingrediente['cantidad'].toString(),
                   );
                 }),
               ],

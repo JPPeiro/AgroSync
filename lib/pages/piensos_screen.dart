@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:agro_sync/petittions_http.dart';
 import 'package:agro_sync/pages/pienso_details_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'main_page.dart';
+import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class PiensosScreen extends StatelessWidget {
-  const PiensosScreen({Key? key}) : super(key: key);
+  const PiensosScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Piensos'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.orange.shade300, Colors.orange.shade500],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        title: Text(
+          'Piensos',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
+        backgroundColor: Colors.grey[900],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => MainPage(),
+                builder: (context) => const MainPage(),
               ),
             );
           },
@@ -49,69 +49,37 @@ class PiensosScreen extends StatelessWidget {
               child: Text('No se encontraron piensos.'),
             );
           } else {
-            return ListWheelScrollView(
-              itemExtent: 300, // Altura de cada elemento en la lista
-              children: snapshot.data!.map<Widget>((pienso) {
-                return CustomCard(pienso: pienso['nombre'].toString(), id: pienso['id']);
-              }).toList(),
-              // diameterRatio: 2,
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class CustomCard extends StatelessWidget {
-  final String pienso;
-  final int id;
-
-  const CustomCard({required this.pienso, required this.id, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PiensoDetailsScreen(piensoNombre: pienso, id: id,),
-          ),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        elevation: 4,
-        margin: const EdgeInsets.all(16),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Column(
-            children: [
-              AspectRatio(
-                aspectRatio: 16 / 9,
+            return VerticalCardPager(
+              textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+              initialPage: 0,
+              titles: snapshot.data!.map<String>((pienso) => pienso['nombre'].toString()).toList(),
+              images: snapshot.data!.map<Widget>((pienso) => Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[800], // Color de fondo para el card
+                  borderRadius: BorderRadius.circular(16), // Borde redondeado opcional
+                ),
                 child: Image.asset(
                   'assets/img/Pienso1.png', // Ruta de la imagen estática
                   fit: BoxFit.contain,
                 ),
-              ),
-              const SizedBox(height: 8.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  pienso,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+              )).toList(),
+              onPageChanged: (page) {
+                // Se ejecuta cada vez que se cambia de página
+              },
+              onSelectedItem: (index) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PiensoDetailsScreen(
+                      piensoNombre: snapshot.data![index]['nombre'].toString(),
+                      id: snapshot.data![index]['id'],
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

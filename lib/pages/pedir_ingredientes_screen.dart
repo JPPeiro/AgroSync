@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../petittions_http.dart';
 
 class PedirIngrediente extends StatefulWidget {
-  final int idIngrediente;
-  final double cantidadNecesaria;
+  final String idIngrediente;
+  final String cantidadNecesaria;
 
   const PedirIngrediente({
     required this.idIngrediente,
@@ -113,8 +113,8 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
               ElevatedButton(
                 onPressed: () {
                   double cantidadIngresada = double.tryParse(cantidadKilos) ?? 0;
-
-                  if (cantidadIngresada < widget.cantidadNecesaria) {
+                  double cantidadNecesaria = double.tryParse(widget.cantidadNecesaria) ?? 0;
+                  if (cantidadIngresada < cantidadNecesaria) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
@@ -123,7 +123,8 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
                     );
                     return;
                   }
-                  aumentar(widget.idIngrediente, cantidadKilos);
+                  int idIngrediente = int.tryParse(widget.idIngrediente) ?? 0;
+                  aumentar(idIngrediente, cantidadKilos);
                   addPedido(proveedor, cantidadKilos);
                 },
                 child: const Text('Pedir'),

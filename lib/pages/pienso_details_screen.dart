@@ -1,6 +1,7 @@
-import 'package:agro_sync/pages/pedir_ingredientes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_sync/petittions_http.dart';
+import 'package:agro_sync/pages/pedir_ingredientes_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PiensoDetailsScreen extends StatelessWidget {
   final String piensoNombre;
@@ -15,20 +16,19 @@ class PiensoDetailsScreen extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
+            backgroundColor: Colors.grey[900], // Color de fondo ajustado
             appBar: AppBar(
-              title: Text('Detalles de $piensoNombre'),
+              title: Text(
+                'Detalles de $piensoNombre',
+                style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+              backgroundColor: Colors.grey[900], // Color de fondo ajustado
             ),
             body: const Center(
               child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Detalles de $piensoNombre'),
-            ),
-            body: Center(
-              child: Text('Error: ${snapshot.error}'),
             ),
           );
         }
@@ -44,17 +44,6 @@ class PiensoDetailsScreen extends StatelessWidget {
               (pienso) => pienso['nombre'].toString() == piensoNombre,
           orElse: () => null,
         );
-
-        if (pienso == null) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Detalles de $piensoNombre'),
-            ),
-            body: Center(
-              child: Text('No se encontraron detalles para $piensoNombre.'),
-            ),
-          );
-        }
 
         // Obtener el ID del pienso y filtrar las composiciones por ese ID
         final piensoId = pienso['id'];
@@ -81,24 +70,27 @@ class PiensoDetailsScreen extends StatelessWidget {
 
         // Aquí puedes mostrar los detalles del pienso en una tabla
         return Scaffold(
-          backgroundColor: Colors.grey[900],
+          backgroundColor: Colors.grey[900], // Color de fondo ajustado
           appBar: AppBar(
-            title: Text('Detalles de ${pienso['nombre']}'),
+            title: Text(
+              'Detalles de $piensoNombre',
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+            backgroundColor: Colors.grey[900], // Color de fondo ajustado
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Imagen del pienso con fondo degradado
+                // Imagen del pienso
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      colors: [Colors.orange.shade200, Colors.orange.shade400],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+                    color: Colors.grey[800],
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -117,6 +109,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  color: Colors.grey[800], // Color de fondo ajustado
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -131,12 +124,14 @@ class PiensoDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
+                                color: Colors.white, // Color de texto ajustado
                               ),
                             ),
                             Text(
                               pienso['nombre'],
                               style: const TextStyle(
                                 fontSize: 16,
+                                color: Colors.white, // Color de texto ajustado
                               ),
                             ),
                           ],
@@ -151,12 +146,14 @@ class PiensoDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
+                                color: Colors.white, // Color de texto ajustado
                               ),
                             ),
                             Text(
                               '${pienso['cantidad']} kilos',
                               style: const TextStyle(
                                 fontSize: 16,
+                                color: Colors.white, // Color de texto ajustado
                               ),
                             ),
                           ],
@@ -165,19 +162,20 @@ class PiensoDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Tabla de ingredientes
                 const SizedBox(height: 20),
+                // Tabla de ingredientes
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  color: Colors.grey[800], // Color de fondo ajustado
                   child: DataTable(
                     columnSpacing: 16,
                     headingRowHeight: 40,
                     columns: const [
-                      DataColumn(label: Text('Ingrediente')),
-                      DataColumn(label: Text('Cantidad')),
+                      DataColumn(label: Text('Ingrediente', style: TextStyle(color: Colors.white))), // Color de texto ajustado
+                      DataColumn(label: Text('Cantidad', style: TextStyle(color: Colors.white))), // Color de texto ajustado
                     ],
                     rows: detallesIngredientes.asMap().entries.map((entry) {
                       final index = entry.key;
@@ -216,6 +214,9 @@ class PiensoDetailsScreen extends StatelessWidget {
                     _mostrarDialogoFabricar(context, id);
                   },
                   child: const Text('Fabricar'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black, backgroundColor: Colors.orange, // Color de texto del botón ajustado
+                  ),
                 ),
               ],
             ),
@@ -225,6 +226,7 @@ class PiensoDetailsScreen extends StatelessWidget {
     );
   }
 }
+
 Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
   String? cantidadKilos;
 
@@ -250,6 +252,9 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
               Navigator.of(context).pop();
             },
             child: const Text('Cancelar'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Colors.grey[800], // Color de texto del botón ajustado
+            ),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -257,7 +262,7 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
                 try {
                   // Llamar al método verificarStock
                   final Map<String, dynamic> stockResult = await verificarStock(id, int.parse(cantidadKilos!));
-
+                  print(stockResult);
                   // Verificar si el resultado de verificarStock es true
                   if (stockResult['result'] == true) {
                     // Llamar al método agregarPienso
@@ -278,7 +283,7 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
                       ),
                     );
                     // Navegar a la pantalla de pedir ingredientes
-                   tabla(context, stockResult);
+                    tabla(context, stockResult);
                   }
                 } catch (e) {
                   print('Error al fabricar el pienso: $e');
@@ -299,12 +304,16 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
               }
             },
             child: const Text('Fabricar'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Colors.green, // Color de texto del botón ajustado
+            ),
           ),
         ],
       );
     },
   );
 }
+
 Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async {
   List<dynamic> ingredientesFaltantes = stockResult['data'];
 
@@ -315,14 +324,16 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
         title: const Text('Ingredientes Faltantes'),
         content: SingleChildScrollView(
           child: DataTable(
-            columns: [
-              const DataColumn(label: Text('Nombre')),
-              const DataColumn(label: Text('Acción')),
+            columns: const [
+              DataColumn(label: Text('Nombre', style: TextStyle(color: Colors.white))), // Color de texto ajustado
+              DataColumn(label: Text('Acción', style: TextStyle(color: Colors.white))), // Color de texto ajustado
             ],
             rows: ingredientesFaltantes.map((ingrediente) {
-              int idIngrediente = int.parse(ingrediente['idIngrediente']);
-              double cantidad = ingrediente['cantidad'];
-              print(cantidad);
+              print(ingredientesFaltantes);
+              String idIngrediente = ingrediente['idIngrediente'];
+              String cantidad = ingrediente['cantidad'];
+
+              print(idIngrediente);
               return DataRow(
                 cells: [
                   DataCell(
@@ -337,7 +348,7 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
                           // Obtener la lista de ingredientes
                           List<dynamic> ingredientes = snapshot.data ?? [];
                           // Buscar el nombre del ingrediente a partir del ID
-                          var ingrediente = ingredientes.firstWhere((ingrediente) => ingrediente['id'] == idIngrediente, orElse: () => null);
+                          var ingrediente = ingredientes.firstWhere((ingrediente) => ingrediente['id'] == 1, orElse: () => null);
                           // Si se encontró el ingrediente, obtener su nombre
                           String nombreIngrediente = ingrediente != null ? ingrediente['nombre'].toString() : 'Nombre no disponible';
 
@@ -359,6 +370,9 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
                         );
                       },
                       child: const Text('Pedir'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black, backgroundColor: Colors.orange, // Color de texto del botón ajustado
+                      ),
                     ),
                   ),
                 ],
