@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 //Usuarios
 Future<List<dynamic>> obtenerUsuarios() async {
   // var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
@@ -77,7 +78,6 @@ Future<void> actualizarUsuario(Map<String, dynamic> nuevoUsuario) async {
   }
 }
 
-
 //Pienso
 Future<List<dynamic>> obtenerPiensos() async {
   // var apiUrl = Uri.parse('http://localhost:8080/api/piensos/');
@@ -130,7 +130,7 @@ Future<void> agregarPienso(int piensoId, int cantidadTotal) async {
   }
 }
 Future<Map<String, dynamic>> verificarStock(int piensoId, int cantidadTotal) async {
-  final String apiUrl = 'http://localhost:8080/api/verificar/';
+  const String apiUrl = 'http://localhost:8080/api/verificar/';
 
   final response = await http.post(
     Uri.parse(apiUrl),
@@ -276,7 +276,6 @@ Future<List<dynamic>> obtenerProveedores() async {
   }
 }
 
-
 //Ingredientes Proveedor
 Future<List<dynamic>> obtenerIngredienteProveedor() async {
   // var apiUrl = Uri.parse('http://localhost:8080/api/ingredienteproveedor/');
@@ -300,7 +299,6 @@ Future<List<dynamic>> obtenerIngredienteProveedor() async {
     return [];
   }
 }
-
 
 //PedidosIngredientes
 Future<List<dynamic>> obtenerPedidos() async {

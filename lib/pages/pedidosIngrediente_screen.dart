@@ -7,11 +7,47 @@ class PedidosIngredientes extends StatefulWidget {
   const PedidosIngredientes({super.key});
 
   @override
-  _PedidosScreenState createState() => _PedidosScreenState();
+  _PedidosIngredientesState createState() => _PedidosIngredientesState();
 }
 
-class _PedidosScreenState extends State<PedidosIngredientes> {
-  List<dynamic> pedidos = [];
+class _PedidosIngredientesState extends State<PedidosIngredientes> {
+  late List<dynamic> pedidos = [];
+  late List<dynamic> ingredientes;
+  late List<dynamic> proveedores;
+
+  @override
+  void initState() {
+    super.initState();
+    cargarDatos();
+  }
+
+  Future<void> cargarDatos() async {
+    try {
+      pedidos = await obtenerPedidos();
+      ingredientes = await obtenerIngredientes();
+      proveedores = await obtenerProveedores();
+      setState(() {}); // Actualizar la interfaz cuando se carguen los datos
+    } catch (e) {
+      print('Error al cargar datos: $e');
+    }
+  }
+
+  String obtenerNombreProveedor(String proveedorId) {
+    var proveedor = proveedores.firstWhere(
+          (proveedor) => proveedor['id'].toString() == proveedorId,
+      orElse: () => {},
+    );
+    return proveedor['nombre'] ?? 'Desconocido';
+  }
+
+  String obtenerNombreIngrediente(String ingredienteId) {
+    var ingrediente = ingredientes.firstWhere(
+          (ingrediente) => ingrediente['id'].toString() == ingredienteId,
+      orElse: () => {},
+    );
+    return ingrediente['nombre'] ?? 'Desconocido';
+  }
+
   Widget _buildDataCell(String text) {
     return Expanded(
       child: Padding(
@@ -63,8 +99,8 @@ class _PedidosScreenState extends State<PedidosIngredientes> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildDataCell(proveedorId),
-              _buildDataCell(ingredienteId),
+              _buildDataCell(obtenerNombreProveedor(proveedorId)),
+              _buildDataCell(obtenerNombreIngrediente(ingredienteId)),
               _buildDataCell(cantidad),
               _buildDataCell(coste),
             ],
@@ -88,42 +124,28 @@ class _PedidosScreenState extends State<PedidosIngredientes> {
         ),
         backgroundColor: Colors.grey[900],
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: obtenerPedidos(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+      body: pedidos == null
+          ? const Center(child: CircularProgressIndicator())
+          : pedidos.isEmpty
+          ? const Center(child: Text('No se encontraron pedidos.'))
+          : ListView(
+        children: [
+          _buildHeaderRow(),
+          const SizedBox(height: 8),
+          ...pedidos.map((pedido) {
+            return _buildDataRow(
+              pedido['proveedorId'].toString(),
+              pedido['ingredienteId'].toString(),
+              pedido['cantidad'].toString(),
+              pedido['coste'].toString(),
             );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else if (snapshot.data == null || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('No se encontraron pedidos.'),
-            );
-          } else {
-            pedidos = snapshot.data!;
-            return ListView(
-              children: [
-                _buildHeaderRow(),
-                const SizedBox(height: 8),
-                ...pedidos.map((pedidos) {
-                  return _buildDataRow(
-                    pedidos['proveedorId'].toString(),
-                    pedidos['ingredienteId'].toString(),
-                    pedidos['cantidad'].toString(),
-                    pedidos['coste'].toString(),
-                  );
-                }),
-              ],
-            );
-          }
-        },
+          }),
+        ],
       ),
     );
   }
+
+
 
   Widget _buildHeaderRow() {
     return Card(
