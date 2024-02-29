@@ -9,7 +9,7 @@ import 'package:agro_sync/pages/login_page.dart';
 import 'ingredientes_screen.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +47,12 @@ class MainPage extends StatelessWidget {
             CustomCard(
               icon: Icons.supervised_user_circle,
               title: 'Usuarios',
-              color: Colors.indigo, // Cambié el color a indigo
+              color: Colors.indigo,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UsuariosScreen(),
+                    builder: (context) => const UsuariosScreen(),
                   ),
                 );
               },
@@ -61,12 +61,12 @@ class MainPage extends StatelessWidget {
             CustomCard(
               icon: Icons.store,
               title: 'Proveedores',
-              color: Colors.teal, // Cambié el color a teal
+              color: Colors.teal,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProveedoresScreen(),
+                    builder: (context) => const ProveedoresScreen(),
                   ),
                 );
               },
@@ -75,12 +75,12 @@ class MainPage extends StatelessWidget {
             CustomCard(
               icon: Icons.feed_rounded,
               title: 'Piensos',
-              color: Colors.amber, // Cambié el color a amber
+              color: Colors.amber,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PiensosScreen(),
+                    builder: (context) => const PiensosScreen(),
                   ),
                 );
               },
@@ -89,12 +89,12 @@ class MainPage extends StatelessWidget {
             CustomCard(
               icon: Icons.shopping_cart,
               title: 'Pedidos Ingredientes',
-              color: Colors.red, // Mantuve el color rojo
+              color: Colors.red,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PedidosIngredientes(),
+                    builder: (context) => const PedidosIngredientes(),
                   ),
                 );
               },
@@ -103,12 +103,12 @@ class MainPage extends StatelessWidget {
             CustomCard(
               icon: Icons.eco_sharp,
               title: 'Ingredientes',
-              color: Colors.deepPurple, // Mantuve el color púrpura profundo
+              color: Colors.deepPurple,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => IngredientesScreen(),
+                    builder: (context) => const IngredientesScreen(),
                   ),
                 );
               },
@@ -129,12 +129,12 @@ class CustomCard extends StatelessWidget {
   final void Function()? onTap;
 
   const CustomCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.color,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -162,9 +162,9 @@ class CustomCard extends StatelessWidget {
               const SizedBox(width: 16),
               Text(
                 title,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87, // Cambiar al color de texto deseado
+                  color: Colors.black87,
                 ),
               ),
             ],

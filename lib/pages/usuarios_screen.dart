@@ -5,7 +5,7 @@ import '../petittions_http.dart';
 import 'dialogs/UsuarioDialog.dart';
 
 class UsuariosScreen extends StatefulWidget {
-  const UsuariosScreen({Key? key}) : super(key: key);
+  const UsuariosScreen({super.key});
 
   @override
   _UsuariosScreenState createState() => _UsuariosScreenState();
@@ -119,7 +119,7 @@ class _UsuariosScreenState extends State<UsuariosScreen> {
               final listaUsuarios = await showDialog<List<dynamic>>(
                 context: context,
                 builder: (BuildContext context) {
-                  return UsuarioDialog(tipo: 1);
+                  return const UsuarioDialog(tipo: 1);
                 },
               );
               if (listaUsuarios != null && listaUsuarios.isNotEmpty) {

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../petittions_http.dart';
 
 class IngredienteDialog extends StatefulWidget {
-  final int tipo; // Parámetro para indicar si se está creando (1) o editando (2) un ingrediente
+  final int tipo;
   final int? id;
 
-  IngredienteDialog({required this.tipo, this.id});
+  const IngredienteDialog({super.key, required this.tipo, this.id});
 
   @override
   _CrearIngredienteDialogState createState() => _CrearIngredienteDialogState();
@@ -44,7 +44,11 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
     String botonTexto = widget.tipo == 1 ? 'Añadir' : 'Editar';
 
     return AlertDialog(
-      title: Text(titulo),
+      backgroundColor: Colors.grey[900],
+      title: Text(
+        titulo,
+        style: const TextStyle(color: Colors.white),
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -52,7 +56,17 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
           children: [
             TextFormField(
               controller: _nombreController,
-              decoration: InputDecoration(labelText: 'Nombre'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Nombre',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este campo es obligatorio';
@@ -63,7 +77,17 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
             ),
             TextFormField(
               controller: _inventarioController,
-              decoration: InputDecoration(labelText: 'Inventario'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Inventario',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este campo es obligatorio';
@@ -78,9 +102,11 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); // Cierra el diálogo al presionar Cancelar
+            Navigator.of(context).pop();
           },
-          child: Text('Cancelar'),
+          child: const Text('Cancelar',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         ElevatedButton(
           onPressed: _formularioValido
@@ -98,7 +124,6 @@ class _CrearIngredienteDialogState extends State<IngredienteDialog> {
     );
   }
 
-  // Método para validar el formulario
   void _validarFormulario() {
     setState(() {
       _formularioValido = _formKey.currentState!.validate();

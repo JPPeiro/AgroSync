@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
-import 'dialogs/ProveedorDialog.dart';
 
 class ProveedoresScreen extends StatefulWidget {
-  ProveedoresScreen({Key? key}) : super(key: key);
+  const ProveedoresScreen({super.key});
 
   @override
   _ProveedorScreenState createState() => _ProveedorScreenState();
@@ -37,19 +36,7 @@ class _ProveedorScreenState extends State<ProveedoresScreen> {
             label: 'Editar',
             backgroundColor: Colors.blue,
             icon: Icons.edit,
-            onPressed: (BuildContext context) async {
-              final listaProveedores = await showDialog<List<dynamic>>(
-                context: context,
-                builder: (BuildContext context) {
-                  return ProveedorDialog(tipo: 2, id: int.parse(id));
-                },
-              );
-              if (listaProveedores != null && listaProveedores.isNotEmpty) {
-                setState(() {
-                  proveedores = listaProveedores;
-                });
-              }
-            },
+            onPressed: (context) => print('editar'),
           ),
         ],
       ),

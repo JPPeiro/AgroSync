@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
 
 class PedidosIngredientes extends StatefulWidget {
-  PedidosIngredientes({super.key});
+  const PedidosIngredientes({super.key});
 
   @override
   _PedidosScreenState createState() => _PedidosScreenState();

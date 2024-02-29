@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/agro_sync.iml" filepath="$PROJECT_DIR$/.idea/agro_sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/agro_sync_android.iml" filepath="$PROJECT_DIR$/android/agro_sync_android.iml" />
     </modules>
   </component>
 </project>

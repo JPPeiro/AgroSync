@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../petittions_http.dart';
 
 class UsuarioDialog extends StatefulWidget {
-  final int tipo; // Parámetro para indicar si se está creando (1) o editando (2) un usuario
+  final int tipo;
   final int? id;
 
   const UsuarioDialog({super.key, required this.tipo, this.id});
@@ -16,7 +16,7 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _permisosController = TextEditingController();
-  bool _formularioValido = false; // Estado para controlar si el formulario es válido
+  bool _formularioValido = false;
 
   @override
   void initState() {
@@ -127,7 +127,7 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); // Cierra el diálogo al presionar Cancelar
+            Navigator.of(context).pop();
           },
           child: const Text(
             'Cancelar',
@@ -150,14 +150,12 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
     );
   }
 
-  // Método para validar el formulario
   void _validarFormulario() {
     setState(() {
       _formularioValido = _formKey.currentState!.validate();
     });
   }
 
-  // Método para crear el usuario
   Future<void> _crearUsuario(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -174,7 +172,6 @@ class _CrearUsuarioDialogState extends State<UsuarioDialog> {
     }
   }
 
-  // Método para editar el usuario
   Future<void> _editarUsuario(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       print(widget.id);

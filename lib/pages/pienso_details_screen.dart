@@ -68,9 +68,8 @@ class PiensoDetailsScreen extends StatelessWidget {
           }
         }).toList();
 
-        // Aquí puedes mostrar los detalles del pienso en una tabla
         return Scaffold(
-          backgroundColor: Colors.grey[900], // Color de fondo ajustado
+          backgroundColor: Colors.grey[900],
           appBar: AppBar(
             title: Text(
               'Detalles de $piensoNombre',
@@ -79,7 +78,7 @@ class PiensoDetailsScreen extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            backgroundColor: Colors.grey[900], // Color de fondo ajustado
+            backgroundColor: Colors.grey[900],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -103,19 +102,17 @@ class PiensoDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Información del pienso
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  color: Colors.grey[800], // Color de fondo ajustado
+                  color: Colors.grey[800],
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Nombre del pienso
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -124,14 +121,14 @@ class PiensoDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                                color: Colors.white, // Color de texto ajustado
+                                color: Colors.white,
                               ),
                             ),
                             Text(
                               pienso['nombre'],
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white, // Color de texto ajustado
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -146,14 +143,14 @@ class PiensoDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                                color: Colors.white, // Color de texto ajustado
+                                color: Colors.white,
                               ),
                             ),
                             Text(
                               '${pienso['cantidad']} kilos',
                               style: const TextStyle(
                                 fontSize: 16,
-                                color: Colors.white, // Color de texto ajustado
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -163,13 +160,12 @@ class PiensoDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Tabla de ingredientes
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  color: Colors.grey[800], // Color de fondo ajustado
+                  color: Colors.grey[800],
                   child: DataTable(
                     columnSpacing: 16,
                     headingRowHeight: 40,
@@ -208,7 +204,6 @@ class PiensoDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Botón "Fabricar"
                 ElevatedButton(
                   onPressed: () {
                     _mostrarDialogoFabricar(context, id);
@@ -253,7 +248,7 @@ Future<void> _mostrarDialogoFabricar(BuildContext context, int id) async {
             },
             child: const Text('Cancelar'),
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Colors.grey[800], // Color de texto del botón ajustado
+              foregroundColor: Colors.white, backgroundColor: Colors.grey[800],
             ),
           ),
           ElevatedButton(
@@ -325,8 +320,8 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
         content: SingleChildScrollView(
           child: DataTable(
             columns: const [
-              DataColumn(label: Text('Nombre', style: TextStyle(color: Colors.white))), // Color de texto ajustado
-              DataColumn(label: Text('Acción', style: TextStyle(color: Colors.white))), // Color de texto ajustado
+              DataColumn(label: Text('Nombre', style: TextStyle(color: Colors.black))), // Color de texto ajustado
+              DataColumn(label: Text('Acción', style: TextStyle(color: Colors.black))), // Color de texto ajustado
             ],
             rows: ingredientesFaltantes.map((ingrediente) {
               print(ingredientesFaltantes);

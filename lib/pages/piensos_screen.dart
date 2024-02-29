@@ -55,16 +55,15 @@ class PiensosScreen extends StatelessWidget {
               titles: snapshot.data!.map<String>((pienso) => pienso['nombre'].toString()).toList(),
               images: snapshot.data!.map<Widget>((pienso) => Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[800], // Color de fondo para el card
-                  borderRadius: BorderRadius.circular(16), // Borde redondeado opcional
+                  color: Colors.grey[800],
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Image.asset(
-                  'assets/img/Pienso1.png', // Ruta de la imagen estática
+                  'assets/img/Pienso1.png',
                   fit: BoxFit.contain,
                 ),
               )).toList(),
               onPageChanged: (page) {
-                // Se ejecuta cada vez que se cambia de página
               },
               onSelectedItem: (index) {
                 Navigator.push(

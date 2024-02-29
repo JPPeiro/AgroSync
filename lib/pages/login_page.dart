@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: ColorfulBackground(
-        duration: Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 1000),
         backgroundColors: const [
           Color(0xFF121212),
           Color(0xFF121212),
