@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../petittions_http.dart';
 
 class PedirIngrediente extends StatefulWidget {
   final String idIngrediente;
   final String cantidadNecesaria;
 
-  const PedirIngrediente({
+  const PedirIngrediente({super.key,
     required this.idIngrediente,
     required this.cantidadNecesaria,
   });
@@ -25,19 +26,15 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
     _fetchData();
   }
 
-
   Future<void> _fetchData() async {
-    // Obtener los datos de los proveedores que venden el ingrediente específico
     List<dynamic> ingredientesProveedoresData = await obtenerIngredienteProveedor();
     setState(() {
-      // Filtrar los datos para obtener solo aquellos cuyo idIngrediente coincida
       ingredientesProveedores = ingredientesProveedoresData.where((proveedor) =>
-      proveedor['idIngrediente'] == widget.idIngrediente).toList();
+      proveedor['idIngrediente'].toString() == widget.idIngrediente).toList();
     });
 
     // Obtener los idProveedor de los ingredientes filtrados
     List<int> idProveedores = ingredientesProveedores.map<int>((proveedor) => proveedor['idProveedor']).toList();
-
     // Obtener los datos de los proveedores con los idProveedor filtrados
     List<dynamic> proveedoresData = await obtenerProveedores();
     setState(() {
@@ -58,8 +55,16 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black, // Fondo negro
       appBar: AppBar(
-        title: const Text('Fabricar Pienso'),
+        title: Text(
+          'Pedir Ingredientes',
+          style: GoogleFonts.montserrat(
+            color: Colors.white,
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Colors.grey[900],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -68,21 +73,12 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
           children: [
             Text(
               'Cantidad Necesaria: ${widget.cantidadNecesaria} kilos',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              onChanged: (value) {
-                cantidadKilos = value;
-              },
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Cantidad en Kilos',
-                hintText: 'Ingrese la cantidad en kilos',
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white), // Texto blanco
             ),
             const SizedBox(height: 20),
-            _buildProveedoresTable(),
+            _buildCantidadInput(),
+            const SizedBox(height: 20),
+            _buildProveedoresCards(),
             const SizedBox(height: 20),
           ],
         ),
@@ -90,48 +86,94 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
     );
   }
 
-  Widget _buildProveedoresTable() {
-    return DataTable(
-      columns: const [
-        DataColumn(label: Text('Proveedor')),
-        DataColumn(label: Text('Precio')),
-        DataColumn(label: Text('Acción')),
+  Widget _buildCantidadInput() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Ingrese la cantidad en kilos:',
+          style: TextStyle(color: Colors.white),
+        ),
+        const SizedBox(height: 10),
+        TextField(
+          onChanged: (value) {
+            cantidadKilos = value;
+          },
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+            hintText: 'Cantidad en kilos',
+            hintStyle: TextStyle(color: Colors.grey),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue),
+            ),
+          ),
+          style: const TextStyle(color: Colors.white), // Texto blanco
+        ),
       ],
-      rows: ingredientesProveedores.map((proveedor) {
-        return DataRow(cells: [
-          DataCell(Text(proveedor['nombre'] ?? 'Proveedor no disponible')),
-          DataCell(Text(proveedor['precio'].toString())),
-          DataCell(Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  _calcularPrecioTotal(proveedor);
-                },
-                child: const Text('Calcular'),
-              ),
-              SizedBox(width: 8), // Espacio entre los botones
-              ElevatedButton(
-                onPressed: () {
-                  double cantidadIngresada = double.tryParse(cantidadKilos) ?? 0;
-                  double cantidadNecesaria = double.tryParse(widget.cantidadNecesaria) ?? 0;
-                  if (cantidadIngresada < cantidadNecesaria) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                    return;
-                  }
-                  int idIngrediente = int.tryParse(widget.idIngrediente) ?? 0;
-                  aumentar(idIngrediente, cantidadKilos);
-                  addPedido(proveedor, cantidadKilos);
-                },
-                child: const Text('Pedir'),
-              ),
-            ],
-          )),
-        ]);
+    );
+  }
+
+  Widget _buildProveedoresCards() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: ingredientesProveedores.map((proveedor) {
+        return Card(
+          color: Colors.grey[800],
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Proveedor: ${proveedor['nombre'] ?? 'Proveedor no disponible'}',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Precio: ${proveedor['precio'].toString()}',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _calcularPrecioTotal(proveedor);
+                      },
+                      child: const Text('Calcular'),
+                    ),
+                    const SizedBox(width: 8), // Espacio entre los botones
+                    ElevatedButton(
+                      onPressed: () {
+                        double cantidadIngresada = double.tryParse(cantidadKilos) ?? 0;
+                        double cantidadNecesaria = double.tryParse(widget.cantidadNecesaria) ?? 0;
+                        if (cantidadIngresada < cantidadNecesaria) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          return;
+                        }
+                        int idIngrediente = int.tryParse(widget.idIngrediente) ?? 0;
+                        aumentar(idIngrediente, cantidadKilos);
+                        addPedido(proveedor, cantidadKilos);
+                      },
+                      child: const Text('Pedir'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
       }).toList(),
     );
   }
@@ -145,7 +187,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('El precio total es: \$${precioTotal.toStringAsFixed(2)}'),
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           ),
         );
       } else {
@@ -165,6 +207,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       );
     }
   }
+
   Future<void> addPedido(Map<String, dynamic> proveedor, String cantidadKilos) async {
     double cantidad = double.tryParse(cantidadKilos) ?? 0;
     double precioPorKilo = proveedor['precio'] ?? 0;
@@ -172,12 +215,12 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
 
     try {
       await crearPedido(
-        {
-          'proveedorId': proveedor['idProveedor'],
-          'ingredienteId': proveedor['idIngrediente'],
-          'cantidad': cantidad,
-          'coste': costoTotal,
-        }
+          {
+            'proveedorId': proveedor['idProveedor'],
+            'ingredienteId': proveedor['idIngrediente'],
+            'cantidad': cantidad,
+            'coste': costoTotal,
+          }
       );
       print('Pedido creado correctamente');
       Navigator.pop(context);

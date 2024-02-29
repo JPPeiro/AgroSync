@@ -342,9 +342,8 @@ Future<void> tabla(BuildContext context, Map<String, dynamic> stockResult) async
                         } else {
                           // Obtener la lista de ingredientes
                           List<dynamic> ingredientes = snapshot.data ?? [];
-                          // Buscar el nombre del ingrediente a partir del ID
-                          var ingrediente = ingredientes.firstWhere((ingrediente) => ingrediente['id'] == 1, orElse: () => null);
-                          // Si se encontró el ingrediente, obtener su nombre
+
+                          var ingrediente = ingredientes.firstWhere((ingrediente) => ingrediente['id'].toString() == idIngrediente, orElse: () => null);
                           String nombreIngrediente = ingrediente != null ? ingrediente['nombre'].toString() : 'Nombre no disponible';
 
                           return Text(nombreIngrediente);
