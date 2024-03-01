@@ -155,10 +155,14 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
                 _buildHeaderRow(),
                 const SizedBox(height: 8),
                 ...ingredientes.map((ingrediente) {
+                  // Limitar la cantidad a dos decimales
+                  double cantidad = double.parse(ingrediente['cantidad'].toString());
+                  String cantidadFormateada = cantidad.toStringAsFixed(2);
+
                   return _buildDataRow(
                     ingrediente['id'].toString(),
                     ingrediente['nombre'].toString(),
-                    ingrediente['cantidad'].toString(),
+                    cantidadFormateada, // Usar la cantidad formateada
                   );
                 }),
               ],
@@ -166,6 +170,7 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
           }
         },
       ),
+
     );
   }
 
