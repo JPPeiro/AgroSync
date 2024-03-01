@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 
 //Usuarios
 Future<List<dynamic>> obtenerUsuarios() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
 
   try {
     var response = await http.get(apiUrl);
@@ -25,8 +25,8 @@ Future<List<dynamic>> obtenerUsuarios() async {
   }
 }
 Future<void> borrarUsuario(int id) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/$id');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/$id');
+  var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/$id');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/$id');
 
   try {
     var response = await http.delete(apiUrl);
@@ -40,8 +40,8 @@ Future<void> borrarUsuario(int id) async {
   }
 }
 Future<void> crearUsuario(Map<String, dynamic> usuario) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
 
   try {
     var response = await http.post(
@@ -59,8 +59,8 @@ Future<void> crearUsuario(Map<String, dynamic> usuario) async {
   }
 }
 Future<void> actualizarUsuario(Map<String, dynamic> nuevoUsuario) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/usuarios/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/usuarios/');
 
   try {
     var response = await http.put(
@@ -80,8 +80,8 @@ Future<void> actualizarUsuario(Map<String, dynamic> nuevoUsuario) async {
 
 //Pienso
 Future<List<dynamic>> obtenerPiensos() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/piensos/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/piensos/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/piensos/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/piensos/');
 
   try {
     var response = await http.get(apiUrl);
@@ -102,8 +102,8 @@ Future<List<dynamic>> obtenerPiensos() async {
   }
 }
 Future<void> agregarPienso(int piensoId, int cantidadTotal) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/');
 
   try {
     var response = await http.post(
@@ -152,8 +152,8 @@ Future<Map<String, dynamic>> verificarStock(int piensoId, int cantidadTotal) asy
 
 //Composiciones
 Future<List<dynamic>> obtenerComposiciones() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/composiciones/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/composiciones/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/composiciones/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/composiciones/');
 
   try {
     var response = await http.get(apiUrl);
@@ -176,8 +176,8 @@ Future<List<dynamic>> obtenerComposiciones() async {
 
 //Ingredientes
 Future<List<dynamic>> obtenerIngredientes() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
 
   try {
     var response = await http.get(apiUrl);
@@ -198,8 +198,8 @@ Future<List<dynamic>> obtenerIngredientes() async {
   }
 }
 Future<void> borrarIngrediente(int id) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/$id');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/$id');
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/$id');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/$id');
 
   try {
     var response = await http.delete(apiUrl);
@@ -213,8 +213,8 @@ Future<void> borrarIngrediente(int id) async {
   }
 }
 Future<void> crearIngrediente(Map<String, dynamic> ingrediente) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
 
   try {
     var response = await http.post(
@@ -232,8 +232,8 @@ Future<void> crearIngrediente(Map<String, dynamic> ingrediente) async {
   }
 }
 Future<void> actualizarIngrediente(Map<String, dynamic> nuevoIngrediente) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredientes/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredientes/');
 
   try {
     var response = await http.put(
@@ -254,8 +254,8 @@ Future<void> actualizarIngrediente(Map<String, dynamic> nuevoIngrediente) async 
 
 //Proveedores
 Future<List<dynamic>> obtenerProveedores() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/proveedores/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/proveedores/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/proveedores/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/proveedores/');
 
   try {
     var response = await http.get(apiUrl);
@@ -278,8 +278,8 @@ Future<List<dynamic>> obtenerProveedores() async {
 
 //Ingredientes Proveedor
 Future<List<dynamic>> obtenerIngredienteProveedor() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/ingredienteproveedor/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredienteproveedor/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/ingredienteproveedor/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/ingredienteproveedor/');
 
   try {
     var response = await http.get(apiUrl);
@@ -302,8 +302,8 @@ Future<List<dynamic>> obtenerIngredienteProveedor() async {
 
 //PedidosIngredientes
 Future<List<dynamic>> obtenerPedidos() async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/pedidosIngredientes/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/pedidosIngredientes/');
 
   try {
     var response = await http.get(apiUrl);
@@ -324,8 +324,8 @@ Future<List<dynamic>> obtenerPedidos() async {
   }
 }
 Future<void> crearPedido(Map<String, dynamic> pedidos) async {
-  // var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
-  var apiUrl = Uri.parse('http://192.168.0.130:8080/api/pedidosIngredientes/');
+  var apiUrl = Uri.parse('http://localhost:8080/api/pedidosIngredientes/');
+  // var apiUrl = Uri.parse('http://192.168.0.130:8080/api/pedidosIngredientes/');
 
   try {
     var response = await http.post(
@@ -343,8 +343,8 @@ Future<void> crearPedido(Map<String, dynamic> pedidos) async {
   }
 }
 Future<void> aumentarCantidad(int id, String cantidad) async {
-  // final url = Uri.parse('http://localhost:8080/api/ingredientesCantidad/?id=$id&cantidad=$cantidad');
-  final url = Uri.parse('http://192.168.0.130:8080/api/ingredientesCantidad/?id=$id&cantidad=$cantidad');
+  final url = Uri.parse('http://localhost:8080/api/ingredientesCantidad/?id=$id&cantidad=$cantidad');
+  // final url = Uri.parse('http://192.168.0.130:8080/api/ingredientesCantidad/?id=$id&cantidad=$cantidad');
 
   try {
     final response = await http.put(url);
