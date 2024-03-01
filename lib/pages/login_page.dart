@@ -69,8 +69,8 @@ class LoginPage extends StatelessWidget {
             ),
             gradient: const LinearGradient(
               colors: [
-                Color.fromARGB(255, 0, 255, 0),
-                Color.fromARGB(255, 128, 0, 128),
+                Color.fromARGB(255, 0, 80, 0),
+                Color.fromARGB(255, 79, 0, 79),
               ],
               begin: Alignment.bottomRight,
               end: Alignment.topLeft,
