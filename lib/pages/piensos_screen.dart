@@ -85,6 +85,7 @@ class PiensosScreen extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     children: [
                       Container(
+                        width: MediaQuery.of(context).size.width * 0.8, // Anchura fija del 80% del ancho de la pantalla
                         decoration: BoxDecoration(
                           color: Colors.grey[800],
                           borderRadius: BorderRadius.circular(16),
@@ -101,25 +102,32 @@ class PiensosScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           child: Image.asset(
                             'assets/img/${pienso['imagen'].toString()}',
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(16),
-                            bottomRight: Radius.circular(16),
+                      Positioned.fill(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.5),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          pienso['nombre'].toString(),
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.lato(
-                            textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                          child: Center(
+                            child: Wrap(
+                              children: [
+                                Text(
+                                  pienso['nombre'].toString(),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.lato(
+                                    textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
