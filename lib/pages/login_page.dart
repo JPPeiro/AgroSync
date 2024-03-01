@@ -12,6 +12,7 @@ class LoginPage extends StatelessWidget {
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Paso 1
 
   void signInUser(BuildContext context) async {
     try {
@@ -25,13 +26,13 @@ class LoginPage extends StatelessWidget {
         if (usuario['password'] == passwordController.text) {
           navigateToMainPage(context);
         } else {
-          print('Contraseña incorrecta');
+          showSnackBar(context, 'Contraseña incorrecta'); // Paso 2
         }
       } else {
-        print('Nombre de usuario no encontrado');
+        showSnackBar(context, 'Nombre de usuario no encontrado'); // Paso 2
       }
     } catch (e) {
-      print('Error: $e');
+      showSnackBar(context, 'Error: $e'); // Paso 2
     }
   }
 
@@ -43,9 +44,19 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+  void showSnackBar(BuildContext context, String message) { // Paso 1
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Paso 1
       backgroundColor: Colors.black,
       body: Stack(
         children: [
@@ -74,7 +85,6 @@ class LoginPage extends StatelessWidget {
             glowIntensity: 0.6,
             child: const SizedBox.expand(),
           ),
-
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
