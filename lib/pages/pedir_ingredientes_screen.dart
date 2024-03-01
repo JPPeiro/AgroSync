@@ -4,9 +4,10 @@ import '../petittions_http.dart';
 
 class PedirIngrediente extends StatefulWidget {
   final String idIngrediente;
-  final String cantidadNecesaria;
+  final double cantidadNecesaria;
 
-  const PedirIngrediente({super.key,
+  const PedirIngrediente({
+    super.key,
     required this.idIngrediente,
     required this.cantidadNecesaria,
   });
@@ -17,6 +18,7 @@ class PedirIngrediente extends StatefulWidget {
 
 class _PedirIngredienteState extends State<PedirIngrediente> {
   String cantidadKilos = '';
+  String unidadSeleccionada = 'kilos';
   List<dynamic> ingredientesProveedores = [];
   List<dynamic> proveedores = [];
 
@@ -33,16 +35,12 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       proveedor['idIngrediente'].toString() == widget.idIngrediente).toList();
     });
 
-    // Obtener los idProveedor de los ingredientes filtrados
     List<int> idProveedores = ingredientesProveedores.map<int>((proveedor) => proveedor['idProveedor']).toList();
-    // Obtener los datos de los proveedores con los idProveedor filtrados
     List<dynamic> proveedoresData = await obtenerProveedores();
     setState(() {
-      // Filtrar los proveedores para obtener solo aquellos con idProveedor en idProveedores
       proveedores = proveedoresData.where((proveedor) => idProveedores.contains(proveedor['id'])).toList();
     });
 
-    // Obtener y asignar el nombre del proveedor a cada entrada en ingredientesProveedores
     for (var proveedor in ingredientesProveedores) {
       var nombreProveedor = proveedores.firstWhere((p) =>
       p['id'] == proveedor['idProveedor'], orElse: () => null);
@@ -55,7 +53,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Fondo negro
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           'Pedir Ingredientes',
@@ -65,6 +63,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
           ),
         ),
         backgroundColor: Colors.grey[900],
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -73,7 +72,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
           children: [
             Text(
               'Cantidad Necesaria: ${widget.cantidadNecesaria} kilos',
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white), // Texto blanco
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 20),
             _buildCantidadInput(),
@@ -91,26 +90,67 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Ingrese la cantidad en kilos:',
+          'Ingrese la cantidad:',
           style: TextStyle(color: Colors.white),
         ),
         const SizedBox(height: 10),
-        TextField(
-          onChanged: (value) {
-            cantidadKilos = value;
-          },
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            hintText: 'Cantidad en kilos',
-            hintStyle: TextStyle(color: Colors.grey),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
+        Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: TextField(
+                onChanged: (value) {
+                  cantidadKilos = value;
+                },
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Cantidad',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
+            const SizedBox(width: 10),
+            Expanded(
+              flex: 2,
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  canvasColor: Colors.grey[900],
+                ),
+                child: DropdownButtonFormField<String>(
+                  value: unidadSeleccionada,
+                  onChanged: (value) {
+                    setState(() {
+                      unidadSeleccionada = value!;
+                    });
+                  },
+                  items: ['kilos', 'gramos'].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[900],
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-          style: const TextStyle(color: Colors.white), // Texto blanco
+          ],
         ),
       ],
     );
@@ -148,23 +188,10 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
                       },
                       child: const Text('Calcular'),
                     ),
-                    const SizedBox(width: 8), // Espacio entre los botones
+                    const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        double cantidadIngresada = double.tryParse(cantidadKilos) ?? 0;
-                        double cantidadNecesaria = double.tryParse(widget.cantidadNecesaria) ?? 0;
-                        if (cantidadIngresada < cantidadNecesaria) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                          return;
-                        }
-                        int idIngrediente = int.tryParse(widget.idIngrediente) ?? 0;
-                        aumentar(idIngrediente, cantidadKilos);
-                        addPedido(proveedor, cantidadKilos);
+                        _pedirIngrediente(proveedor);
                       },
                       child: const Text('Pedir'),
                     ),
@@ -180,7 +207,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
 
   void _calcularPrecioTotal(Map<String, dynamic> proveedor) {
     if (cantidadKilos.isNotEmpty) {
-      double cantidadFabricada = double.tryParse(cantidadKilos) ?? 0;
+      double cantidadFabricada = _convertirAKilos(double.tryParse(cantidadKilos) ?? 0);
       if (cantidadFabricada > 0) {
         double precioPorKilo = proveedor['precio'] ?? 0;
         double precioTotal = cantidadFabricada * precioPorKilo;
@@ -201,37 +228,70 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Por favor, ingrese la cantidad en kilos.'),
+          content: Text('Por favor, ingrese la cantidad.'),
           duration: Duration(seconds: 2),
         ),
       );
     }
   }
 
-  Future<void> addPedido(Map<String, dynamic> proveedor, String cantidadKilos) async {
-    double cantidad = double.tryParse(cantidadKilos) ?? 0;
-    double precioPorKilo = proveedor['precio'] ?? 0;
-    double costoTotal = cantidad * precioPorKilo;
+  double _convertirAKilos(double cantidad) {
+    if (unidadSeleccionada == 'gramos') {
+      return cantidad / 1000; // Convertir gramos a kilos
+    }
+    return cantidad; // No es necesario convertir si está en kilos
+  }
 
-    try {
-      await crearPedido(
-          {
-            'proveedorId': proveedor['idProveedor'],
-            'ingredienteId': proveedor['idIngrediente'],
-            'cantidad': cantidad,
-            'coste': costoTotal,
-          }
+  void _pedirIngrediente(Map<String, dynamic> proveedor) {
+    if (cantidadKilos.isNotEmpty) {
+      double cantidadPedida = _convertirAKilos(double.tryParse(cantidadKilos) ?? 0);
+      double cantidadNecesaria = widget.cantidadNecesaria ?? 0;
+      if (cantidadPedida < cantidadNecesaria) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('La cantidad ingresada es inferior a la cantidad necesaria.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        return;
+      }
+      aumentar(proveedor["idIngrediente"], cantidadPedida.toString());
+      addPedido(proveedor, cantidadPedida.toString());
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, ingrese la cantidad.'),
+          duration: Duration(seconds: 2),
+        ),
       );
-      print('Pedido creado correctamente');
-      Navigator.pop(context);
-    } catch (e) {
-      print('Error al crear el pedido: $e');
     }
   }
 
   Future<void> aumentar(int id, String cantidad) async {
     try {
       await aumentarCantidad(id,cantidad);
+    } catch (e) {
+      print('Error al crear el pedido: $e');
+    }
+  }
+
+  Future<void> addPedido(Map<String, dynamic> proveedor, String cantidadKilos) async {
+    print(cantidadKilos);
+    double cantidad = double.tryParse(cantidadKilos) ?? 0;
+    double precioPorKilo = proveedor['precio'] ?? 0;
+    double costoTotal = cantidad * precioPorKilo;
+
+    try {
+      await crearPedido(
+        {
+          'proveedorId': proveedor['idProveedor'],
+          'ingredienteId': proveedor['idIngrediente'],
+          'cantidad': cantidad,
+          'coste': costoTotal,
+        },
+      );
+      print('Pedido creado correctamente');
+      Navigator.pop(context);
     } catch (e) {
       print('Error al crear el pedido: $e');
     }
