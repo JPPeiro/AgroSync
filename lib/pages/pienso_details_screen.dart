@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 class PiensoDetailsScreen extends StatefulWidget {
   final String piensoNombre;
   final int id;
+  final String imagen;
 
-  const PiensoDetailsScreen({required this.piensoNombre, required this.id, Key? key}) : super(key: key);
+  const PiensoDetailsScreen({required this.piensoNombre, required this.id, required this.imagen, Key? key}) : super(key: key);
 
   @override
   _PiensoDetailsScreenState createState() => _PiensoDetailsScreenState();
@@ -29,7 +30,6 @@ class _PiensoDetailsScreenState extends State<PiensoDetailsScreen> {
     final List<dynamic> piensos = responses[0];
     final List<dynamic> composiciones = responses[1];
     final List<dynamic> ingredientes = responses[2];
-
     final pienso = piensos.firstWhere((pienso) =>
     pienso['nombre'].toString() == widget.piensoNombre, orElse: () => null);
     final piensoId = pienso != null ? pienso['id'] : null;
@@ -88,7 +88,7 @@ class _PiensoDetailsScreenState extends State<PiensoDetailsScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
-                  'assets/img/Pienso1.png',
+                  'assets/img/${widget.imagen}',
                   width: 350,
                   height: 350,
                   fit: BoxFit.contain,

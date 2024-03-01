@@ -32,7 +32,7 @@ class PiensosScreen extends StatelessWidget {
             );
           },
         ),
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerPiensos(),
@@ -51,8 +51,9 @@ class PiensosScreen extends StatelessWidget {
             );
           } else {
             return VerticalCardPager(
-              textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-              initialPage: 0,
+              textStyle: GoogleFonts.lato(
+                textStyle: const TextStyle(color: Colors.white, fontSize: 5),
+              ),              initialPage: 0,
               titles: snapshot.data!.map<String>((pienso) => pienso['nombre'].toString()).toList(),
               images: snapshot.data!.map<Widget>((pienso) => Container(
                 decoration: BoxDecoration(
@@ -60,7 +61,7 @@ class PiensosScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Image.asset(
-                  'assets/img/Pienso1.png',
+                  'assets/img/${pienso['imagen'].toString()}',
                   fit: BoxFit.contain,
                 ),
               )).toList(),
@@ -73,6 +74,7 @@ class PiensosScreen extends StatelessWidget {
                     builder: (context) => PiensoDetailsScreen(
                       piensoNombre: snapshot.data![index]['nombre'].toString(),
                       id: snapshot.data![index]['id'],
+                      imagen: snapshot.data![index]['imagen'].toString(),
                     ),
                   ),
                 );
