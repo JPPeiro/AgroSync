@@ -9,7 +9,7 @@ import 'package:agro_sync/pages/login_page.dart';
 import 'ingredientes_screen.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  const MainPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,9 @@ class MainPage extends StatelessWidget {
             );
           },
         ),
-        iconTheme: IconThemeData(color: Colors.white), // Establecer el color de los iconos de la AppBar
+        iconTheme: const IconThemeData(color: Colors.white), // Establecer el color de los iconos de la AppBar
       ),
-    body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,12 +50,7 @@ class MainPage extends StatelessWidget {
               title: 'Usuarios',
               color: Colors.indigo,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UsuariosScreen(),
-                  ),
-                );
+                _navigateToPage(context, const UsuariosScreen());
               },
             ),
             const SizedBox(height: 20),
@@ -64,12 +59,7 @@ class MainPage extends StatelessWidget {
               title: 'Proveedores',
               color: Colors.teal,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProveedoresScreen(),
-                  ),
-                );
+                _navigateToPage(context, const ProveedoresScreen());
               },
             ),
             const SizedBox(height: 20),
@@ -78,12 +68,7 @@ class MainPage extends StatelessWidget {
               title: 'Piensos',
               color: Colors.amber,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PiensosScreen(),
-                  ),
-                );
+                _navigateToPage(context, const PiensosScreen());
               },
             ),
             const SizedBox(height: 20),
@@ -92,12 +77,7 @@ class MainPage extends StatelessWidget {
               title: 'Pedidos Ingredientes',
               color: Colors.red,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PedidosIngredientes(),
-                  ),
-                );
+                _navigateToPage(context, const PedidosIngredientes());
               },
             ),
             const SizedBox(height: 20),
@@ -106,21 +86,35 @@ class MainPage extends StatelessWidget {
               title: 'Ingredientes',
               color: Colors.deepPurple,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const IngredientesScreen(),
-                  ),
-                );
+                _navigateToPage(context, const IngredientesScreen());
               },
             ),
             const SizedBox(height: 20),
           ],
-
         ),
       ),
     );
   }
+
+void _navigateToPage(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    ),
+  );
+}
 }
 
 class CustomCard extends StatelessWidget {
