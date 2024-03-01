@@ -26,7 +26,7 @@ class _PedidosIngredientesState extends State<PedidosIngredientes> {
       pedidos = await obtenerPedidos();
       ingredientes = await obtenerIngredientes();
       proveedores = await obtenerProveedores();
-      setState(() {}); // Actualizar la interfaz cuando se carguen los datos
+      setState(() {});
     } catch (e) {
       print('Error al cargar datos: $e');
     }
@@ -123,6 +123,7 @@ class _PedidosIngredientesState extends State<PedidosIngredientes> {
           ),
         ),
         backgroundColor: Colors.grey[900],
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: pedidos == null
           ? const Center(child: CircularProgressIndicator())

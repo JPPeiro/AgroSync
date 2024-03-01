@@ -86,6 +86,7 @@ class _ProveedorScreenState extends State<ProveedoresScreen> {
           ),
         ),
         backgroundColor: Colors.grey[900],
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerProveedores(),

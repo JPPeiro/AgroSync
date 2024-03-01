@@ -37,8 +37,9 @@ class MainPage extends StatelessWidget {
             );
           },
         ),
+        iconTheme: IconThemeData(color: Colors.white), // Establecer el color de los iconos de la AppBar
       ),
-      body: SingleChildScrollView(
+    body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

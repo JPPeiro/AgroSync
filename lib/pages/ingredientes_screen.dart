@@ -131,6 +131,7 @@ class _IngredientesScreenState extends State<IngredientesScreen> {
             color: Colors.white,
           ),
         ],
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerIngredientes(),

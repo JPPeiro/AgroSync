@@ -32,6 +32,7 @@ class PiensosScreen extends StatelessWidget {
             );
           },
         ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: obtenerPiensos(),
