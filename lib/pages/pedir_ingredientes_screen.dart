@@ -70,11 +70,6 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Cantidad Necesaria: ${widget.cantidadNecesaria} kilos',
-              style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-            const SizedBox(height: 20),
             _buildCantidadInput(),
             const SizedBox(height: 20),
             _buildProveedoresCards(),
@@ -89,6 +84,11 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Cantidad Necesaria: ${widget.cantidadNecesaria.toStringAsFixed(2)} kilos',
+          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        const SizedBox(height: 20),
         const Text(
           'Ingrese la cantidad:',
           style: TextStyle(color: Colors.white),
@@ -155,6 +155,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       ],
     );
   }
+
 
   Widget _buildProveedoresCards() {
     return Column(
@@ -234,6 +235,7 @@ class _PedirIngredienteState extends State<PedirIngrediente> {
       );
     }
   }
+
 
   double _convertirAKilos(double cantidad) {
     if (unidadSeleccionada == 'gramos') {
