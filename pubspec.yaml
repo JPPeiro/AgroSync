@@ -40,6 +40,7 @@ dependencies:
   colorful_background: ^0.0.4
   google_fonts: ^6.1.0
   vertical_card_pager:
+  metaballs: ^1.5.0
 
 dev_dependencies:
   flutter_test:

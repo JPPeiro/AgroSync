@@ -188,6 +188,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "metaballs",
+      "rootUri": "file:///home/jprietop/.pub-cache/hosted/pub.dev/metaballs-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "path",
       "rootUri": "file:///home/jprietop/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
@@ -356,7 +362,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-03-01T14:45:02.684107Z",
+  "generated": "2024-03-01T15:04:49.287547Z",
   "generator": "pub",
   "generatorVersion": "3.2.5"
 }
